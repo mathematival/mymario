@@ -6,11 +6,11 @@
 #include <QVector>
 #include <QPixmap>
 #include <musicplayer.h>
-#include <QMediaPlayer>
+#include <QSoundEffect>
 
 extern int LIVES;
-extern QVector<QMediaPlayer*>playerList;
-extern QVector<QMediaPlayer*>backplayerList;
+extern QVector<QSoundEffect*>playerList;
+extern QVector<QSoundEffect*>backplayerList;
 extern MusicPlayer *musicPlayer;
 extern void deleteMusic();
 extern void stopAllMusic();

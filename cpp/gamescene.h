@@ -62,8 +62,9 @@ public:
     void Jump_Collision();//角色跳跃碰撞检测
     void Move_Collision();//移动碰撞检测
     void Game_Win();
-
+    void Game_Over();
 signals:
+    void back();
 private:
 
 };

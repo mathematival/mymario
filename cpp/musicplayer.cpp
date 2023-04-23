@@ -1,26 +1,28 @@
 #include "musicplayer.h"
-#include <QMediaPlayer>
+#include<QSoundEffect>
 #include <global.h>
 #include <QDebug>
 MusicPlayer::MusicPlayer(QObject *parent) : QObject(parent)
 {
-    mediaPlayer = new QMediaPlayer;
-    backPlayer = new QMediaPlayer;
+    mediaPlayer = new QSoundEffect;
+    backPlayer = new QSoundEffect;
 }
 
 void MusicPlayer::play(QString str)
 {
-    mediaPlayer->setSource(QUrl::fromLocalFile(str));
+    mediaPlayer->setSource(QUrl(str));
+    mediaPlayer->setLoopCount(1);
+    mediaPlayer->setVolume(0.5f);
     mediaPlayer->play();
-    qDebug()<<str<<"音效的状态:"<<mediaPlayer->playbackState();
-                                            playerList.append(mediaPlayer);
+    playerList.append(mediaPlayer);
 }
 
 void MusicPlayer::backMusicPlay(QString str)
 {
-    backPlayer->setSource(QUrl::fromLocalFile(str));
+    backPlayer->setSource(QUrl(str));
+    backPlayer->setLoopCount(QSoundEffect::Infinite);
+    backPlayer->setVolume(0.5f);
     backPlayer->play();
-    qDebug()<<str<<"音效的状态:"<<backPlayer->playbackState();
-                                            backplayerList.append(backPlayer);
+    backplayerList.append(backPlayer);
 }
 

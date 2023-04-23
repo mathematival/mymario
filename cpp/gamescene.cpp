@@ -1,6 +1,6 @@
 #include "gamescene.h"
 #include<musicplayer.h>
-#include<QMediaPlayer>
+#include<QSoundEffect>
 #include <QDebug>
 #include <global.h>
 #include<pipe.h>
@@ -94,6 +94,9 @@ void GameScene::timerEvent(QTimerEvent *event) {
 
     if (event->timerId() == timer3) {
         time -= 0.05;
+        if(time<=0.0){
+            Game_Over();
+        };
         unknown->Unknown_State();
         unknown->Crash_state();
     }
@@ -171,6 +174,10 @@ void GameScene::keyReleaseEvent(QKeyEvent *event) {
 
 void GameScene::paintEvent(QPaintEvent *) {
     QPainter painter(this);
+    if(mary->life<=0){
+        painter.drawPixmap(0, 0, 800, 545, QPixmap(":/photo/gameover.png"));
+        return;
+    }
     if (!game_start) {
         painter.drawPixmap(0, 0, 800, 545, QPixmap(":/photo/blackground2.png"));
         painter.drawPixmap(300, 250, 40, 40, QPixmap(":/photo/life.png"));
@@ -502,6 +509,10 @@ void GameScene::Die_Init() {
     if (mary->y > 500) {
         mary->y = 455;
         mary->life--;
+        if(mary->life<=0){
+            Game_Over();
+            return;
+        };
         killTimer(timer3);
         killTimer(timer1);
         game_start = false;
@@ -531,4 +542,15 @@ void GameScene::Game_Win() {
     });
 
 }
-
+void GameScene::Game_Over(){
+    killTimer(timer1);
+    killTimer(timer3);
+    QTimer::singleShot(1000, this, [=]() {
+        game_start = false;
+        time = 300.0;
+        QTimer::singleShot(1500, this, [=]() {
+            this->close();
+            emit  this->back();
+        });
+    });
+}

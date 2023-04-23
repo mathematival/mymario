@@ -1,17 +1,15 @@
 
 #ifndef MUSICPLAYER_H
 #define MUSICPLAYER_H
-
 #include <QObject>
 #include<QSoundEffect>
-#include <QMediaPlayer>
 class MusicPlayer : public QObject
 {
     Q_OBJECT
 public:
     explicit MusicPlayer(QObject *parent = nullptr);
-    QMediaPlayer *mediaPlayer;
-    QMediaPlayer *backPlayer;
+    QSoundEffect *mediaPlayer;
+    QSoundEffect *backPlayer;
     void play(QString str);
     void backMusicPlay(QString str);
 signals:

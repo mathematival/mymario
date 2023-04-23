@@ -3,6 +3,9 @@
 #include "ui_mainwindow.h"
 #include"gamescene.h"
 #include"gameset.h"
+#include<musicplayer.h>
+#include<global.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -11,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFixedSize(800,545);
     this->setWindowTitle("马里奥");
     QApplication::setWindowIcon(QIcon(":/photo/icon.png"));//设置图标
+    musicPlayer->backMusicPlay(course_clear);
     MyPushButton *start_btn=new MyPushButton(":/photo/end.png");//设置开始按钮
     start_btn->setParent(this);
     start_btn->move(30,this->height()*0.25);
@@ -21,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
             this->hide();
             GameScene *gamescene=new GameScene;
             gamescene->show();
+            connect(gamescene,&GameScene::back,this,[=](){
+                this->show();
+            });
         });
     });
     MyPushButton *help_btn=new MyPushButton(":/photo/help.png");//设置帮助按钮
@@ -38,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
             });
         });
     });
-    MyPushButton *set_btn=new MyPushButton(":/photo/set.png");//设置帮助按钮
+    MyPushButton *set_btn=new MyPushButton(":/photo/set.png");//设置设置按钮
     set_btn->setParent(this);
     set_btn->move(30,this->height()*0.55);
     connect(set_btn,&QPushButton::clicked,[=](){

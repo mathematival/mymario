@@ -1,10 +1,12 @@
+#ifndef GLOBAL_CPP
+#define GLOBAL_CPP
 #include "global.h"
 #include <QDebug>
-
 QString LEVEL_NAME = "";
-QVector<QMediaPlayer*>playerList;
-QVector<QMediaPlayer*>backplayerList;
+QVector<QSoundEffect*>playerList;
+QVector<QSoundEffect*>backplayerList;
 MusicPlayer *musicPlayer = new MusicPlayer;
+
 //音效区
 QString course_clear = ":/music/course_clear.wav";
 QString Death = ":/music/death.wav";
@@ -38,21 +40,16 @@ void deleteMusic()
 
     for(int i=0;i<playerList.size();i++)
     {
-        QMediaPlayer *m = playerList[i];
-        if(m->playbackState()==QMediaPlayer::StoppedState)
-        {
-
-            m->stop();
-            playerList.remove(i);
-        }
-
+        QSoundEffect *m = playerList[i];
+        m->stop();
+        playerList.remove(i);
     }
 }
 void stopAllMusic()
 {
     for(int i=0;i<playerList.size();i++)
     {
-        QMediaPlayer *m = playerList[i];
+        QSoundEffect *m = playerList[i];
         m->stop();
         playerList.remove(i);
     }
@@ -62,14 +59,9 @@ void deleteBackMusic()
 {
     for(int i=0;i<backplayerList.size();i++)
     {
-        QMediaPlayer *m = backplayerList[i];
-        if(m->playbackState()==QMediaPlayer::StoppedState)
-        {
-
-            m->stop();
-            backplayerList.remove(i);
-        }
-
+        QSoundEffect *m = backplayerList[i];
+        m->stop();
+        backplayerList.remove(i);
     }
 }
 
@@ -77,8 +69,9 @@ void stopAllBackMusic()
 {
     for(int i=0;i<backplayerList.size();i++)
     {
-        QMediaPlayer *m = backplayerList[i];
+        QSoundEffect *m = backplayerList[i];
         m->stop();
         backplayerList.remove(i);
     }
 }
+#endif // GLOBAL_CPP
