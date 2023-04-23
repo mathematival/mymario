@@ -2,14 +2,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include"gamescene.h"
-
+#include"gameset.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->setFixedSize(800,545);
-    this->setWindowTitle("超级玛丽");
+    this->setWindowTitle("马里奥");
     QApplication::setWindowIcon(QIcon(":/photo/icon.png"));//设置图标
     MyPushButton *start_btn=new MyPushButton(":/photo/end.png");//设置开始按钮
     start_btn->setParent(this);
@@ -38,9 +38,24 @@ MainWindow::MainWindow(QWidget *parent)
             });
         });
     });
+    MyPushButton *set_btn=new MyPushButton(":/photo/set.png");//设置帮助按钮
+    set_btn->setParent(this);
+    set_btn->move(30,this->height()*0.55);
+    connect(set_btn,&QPushButton::clicked,[=](){
+        set_btn->zoom1();
+        set_btn->zoom2();
+        QTimer::singleShot(500,this,[=](){
+            this->hide();
+            Gameset *gameset=new Gameset();
+            gameset->show();
+            connect(gameset,&Gameset::back,this,[=](){
+                this->show();
+            });
+        });
+    });
     MyPushButton *end_btn=new MyPushButton(":/photo/start.png");//设置结束按钮
     end_btn->setParent(this);
-    end_btn->move(30,this->height()*0.55);
+    end_btn->move(30,this->height()*0.70);
     connect(end_btn,&QPushButton::clicked,[=](){
         end_btn->zoom1();
         end_btn->zoom2();

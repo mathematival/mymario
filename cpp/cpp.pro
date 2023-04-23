@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,28 +15,32 @@ SOURCES += \
     gamehelp.cpp \
     gamepause.cpp \
     gamescene.cpp \
+    gameset.cpp \
+    global.cpp \
     main.cpp \
     mainwindow.cpp \
     mary.cpp \
     master.cpp \
     mushroom.cpp \
+    musicplayer.cpp \
     mypushbutton.cpp \
     pipe.cpp \
     unknown.cpp
 
 HEADERS += \
-    C:/Users/86182/OneDrive/桌面/supermary-main/supermary-main/brick.h \
-    C:/Users/86182/OneDrive/桌面/supermary-main/supermary-main/brick.h \
     brick.h \
     castle.h \
     fire.h \
     gamehelp.h \
     gamepause.h \
     gamescene.h \
+    gameset.h \
+    global.h \
     mainwindow.h \
     mary.h \
     master.h \
     mushroom.h \
+    musicplayer.h \
     mypushbutton.h \
     pipe.h \
     unknown.h

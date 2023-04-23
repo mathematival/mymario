@@ -25,13 +25,12 @@ class GameScene : public QWidget {
 
 public:
     explicit GameScene(QWidget *parent = nullptr);
-
     int timer1;
     int timer2;
     int timer3;
     bool is_kill_timer2;
     bool game_start;
-    float time;
+    double time;
     int score;
     bool is_press_x;
     bool is_win;

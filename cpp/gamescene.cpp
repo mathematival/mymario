@@ -1,20 +1,25 @@
 #include "gamescene.h"
-
+#include<musicplayer.h>
+#include<QMediaPlayer>
+#include <QDebug>
+#include <global.h>
+#include<pipe.h>
+#include<QPixmap>
 GameScene::GameScene(QWidget *parent) : QWidget(parent) {
-    setWindowTitle("超级玛丽");//设置标题
+    setWindowTitle("马里奥");//设置标题
     setFixedSize(800, 545);//设置窗口大小
     Game_Init();
     Pause_Init();
-    QTimer::singleShot(1500, this, [=]() {
+    QTimer::singleShot(1000, this, [=]() {
         timer1 = startTimer(15);
-        timer3 = startTimer(40);
+        timer3 = startTimer(50);
         game_start = true;
     });
 }
 
 void GameScene::Pause_Init() {
     Pause = new GamePause();//初始化暂停窗口
-    MyPushButton *btn_continue = new MyPushButton(":/photo/continueGame.png");//添加继续按钮
+    MyPushButton *btn_continue = new MyPushButton(":/photo/continueGame.png");//添加继续游戏按钮
     btn_continue->setParent(Pause);
     btn_continue->setFixedSize(150, 75);
     btn_continue->setIconSize(QSize(150, 75));
@@ -30,7 +35,7 @@ void GameScene::Pause_Init() {
             Pause->close();
         });
     });
-    MyPushButton *initGame = new MyPushButton(":/photo/initGame.png");//添加初始化窗口
+    MyPushButton *initGame = new MyPushButton(":/photo/initGame.png");//添加重新开始按钮
     initGame->setParent(Pause);
     initGame->setFixedSize(150, 75);
     initGame->setIconSize(QSize(150, 75));
@@ -41,14 +46,14 @@ void GameScene::Pause_Init() {
         QTimer::singleShot(500, this, [=]() {
             Pause_Game_Init();//游戏初始化
             Pause->close();
-            QTimer::singleShot(1500, this, [=]() {
-                timer1 = startTimer(15);//开启定时器
-                timer3 = startTimer(40);
+            QTimer::singleShot(500, this, [=]() {
+                timer1 = startTimer(15);
+                timer3 = startTimer(50);
                 game_start = true;
             });
         });
     });
-    MyPushButton *btn_exit = new MyPushButton(":/photo/start.png");//添加离开按钮
+    MyPushButton *btn_exit = new MyPushButton(":/photo/start.png");//添加退出游戏按钮
     btn_exit->setParent(Pause);
     btn_exit->setFixedSize(150, 75);
     btn_exit->setIconSize(QSize(150, 75));
@@ -88,7 +93,7 @@ void GameScene::timerEvent(QTimerEvent *event) {
     }
 
     if (event->timerId() == timer3) {
-        time -= 0.04;
+        time -= 0.05;
         unknown->Unknown_State();
         unknown->Crash_state();
     }
@@ -131,6 +136,9 @@ void GameScene::keyPressEvent(QKeyEvent *event) {
                     fire->Fire_xy();
                 }
                 break;
+            case Qt::Key_W:
+                is_press_x = true;
+                fire->Fire_xy();
         }
     }
 }
@@ -164,7 +172,7 @@ void GameScene::keyReleaseEvent(QKeyEvent *event) {
 void GameScene::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     if (!game_start) {
-        painter.drawPixmap(0, 0, 800, 550, QPixmap(":/photo/blackground2.png"));
+        painter.drawPixmap(0, 0, 800, 545, QPixmap(":/photo/blackground2.png"));
         painter.drawPixmap(300, 250, 40, 40, QPixmap(":/photo/life.png"));
         painter.setPen(QColor(255, 255, 255));
         QFont font;
@@ -261,7 +269,8 @@ void GameScene::paintEvent(QPaintEvent *) {
     }
     if (mary->is_die) {
         painter.drawPixmap(mary->map_x, mary->y, QPixmap(":/photo/mary_die.png"), mary->die_pix_state, 0, 50, 50);//画角色
-    } else if (!mary->is_die && mary->invincible_state % 2 == 0 && !is_win) {
+    }
+    if (!mary->is_die && mary->invincible_state % 2 == 0 && !is_win) {
         painter.drawPixmap(mary->map_x, mary->y,
                            QPixmap(":/photo/walk_" + mary->direction + QString::number(mary->colour) + ".png"),
                            mary->walk_state, 0, 45, 45);//画角色
@@ -280,7 +289,7 @@ void GameScene::paintEvent(QPaintEvent *) {
 void GameScene::Game_Init() {
     mary = new Mary;
     brick = new Brick;
-    pipe = new Pipe;
+    pipe = new class Pipe;
     unknown = new Unknown;
     mushroom = new MushRoom;
     master = new Master;

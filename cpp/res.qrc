@@ -46,5 +46,33 @@
         <file>photo/background1.jpg</file>
         <file>photo/blackground2.png</file>
         <file>photo/brick1.png</file>
+        <file>music/course_clear.wav</file>
+        <file>music/death.wav</file>
+        <file>music/flagpole.wav</file>
+        <file>music/game_over.mp3</file>
+        <file>music/invincible.mp3</file>
+        <file>music/main_theme.mp3</file>
+        <file>music/main_theme_sped_up.mp3</file>
+        <file>music/out_of_time.wav</file>
+        <file>music/stage_clear.wav</file>
+        <file>music/start.mp3</file>
+        <file>music/world_clear.wav</file>
+        <file>sound/begin.wav</file>
+        <file>sound/big_jump.mp3</file>
+        <file>sound/brick_smash.mp3</file>
+        <file>sound/bump.mp3</file>
+        <file>sound/coin.mp3</file>
+        <file>sound/count_down.mp3</file>
+        <file>sound/fireball.mp3</file>
+        <file>sound/kick.mp3</file>
+        <file>sound/main_theme_sped_up - instance.mp3</file>
+        <file>sound/main_theme_sped_up.wav</file>
+        <file>sound/one_up.mp3</file>
+        <file>sound/pipe.mp3</file>
+        <file>sound/powerup.mp3</file>
+        <file>sound/powerup_appears.mp3</file>
+        <file>sound/small_jump.mp3</file>
+        <file>sound/stomp.mp3</file>
+        <file>photo/background3.jpg</file>
     </qresource>
 </RCC>

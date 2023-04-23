@@ -7,6 +7,7 @@
 GamePause::GamePause() {
     this->setWindowTitle("游戏暂停");
     this->setFixedSize(200, 240);
+    this->move(300,175);
     this->setWindowModality(Qt::ApplicationModal);
 
 }

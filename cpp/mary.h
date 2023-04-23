@@ -1,7 +1,7 @@
 
 #ifndef MARY_H
 #define MARY_H
-
+#include<QPixmap>
 #include<QString>
 
 class Mary {
@@ -29,7 +29,6 @@ public:
     QString direction;//角色移动的方向
     void Mary_Init();//角色初始化
     void Move_state();
-
     void Mary_Move(const QString &direction);//角色移动
     void Jump_And_Down();//上升和下降
     void Mary_die();//角色死亡

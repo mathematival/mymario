@@ -15,8 +15,7 @@ GameHelp::GameHelp(QWidget *parent) : QWidget(parent) {
         back_btn->zoom2();
         QTimer::singleShot(500, this, [=]() {
             this->close();
-            emit
-                this->back();
+            emit this->back();
         });
     });
 }
