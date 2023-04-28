@@ -1,7 +1,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include"gamescene.h"
+#include"level1.h"
 #include"gameset.h"
 #include<musicplayer.h>
 #include<global.h>
@@ -23,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
         start_btn->zoom2();
         QTimer::singleShot(500,this,[=](){
             this->hide();
-            GameScene *gamescene=new GameScene;
-            gamescene->show();
-            connect(gamescene,&GameScene::back,this,[=](){
+            level1 *Level1=new level1;
+            Level1->show();
+            connect(Level1,&level1::back,this,[=](){
                 this->show();
             });
         });

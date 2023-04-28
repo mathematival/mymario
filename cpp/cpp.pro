@@ -17,6 +17,8 @@ SOURCES += \
     gamescene.cpp \
     gameset.cpp \
     global.cpp \
+    level1.cpp \
+    level2.cpp \
     main.cpp \
     mainwindow.cpp \
     mary.cpp \
@@ -36,6 +38,8 @@ HEADERS += \
     gamescene.h \
     gameset.h \
     global.h \
+    level1.h \
+    level2.h \
     mainwindow.h \
     mary.h \
     master.h \

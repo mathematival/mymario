@@ -1,11 +1,12 @@
-#include "gamescene.h"
+#include "level2.h"
 #include<musicplayer.h>
 #include<QSoundEffect>
 #include <QDebug>
 #include <global.h>
 #include<pipe.h>
 #include<QPixmap>
-GameScene::GameScene(QWidget *parent) : QWidget(parent) {
+
+level2::level2(QWidget *parent) : QWidget(parent) {
     setWindowTitle("马里奥");//设置标题
     setFixedSize(800, 545);//设置窗口大小
     Game_Init();
@@ -17,7 +18,7 @@ GameScene::GameScene(QWidget *parent) : QWidget(parent) {
     });
 }
 
-void GameScene::Pause_Init() {
+void level2::Pause_Init() {
     Pause = new GamePause();//初始化暂停窗口
     MyPushButton *btn_continue = new MyPushButton(":/photo/continueGame.png");//添加继续游戏按钮
     btn_continue->setParent(Pause);
@@ -69,7 +70,7 @@ void GameScene::Pause_Init() {
     });
 }
 
-void GameScene::timerEvent(QTimerEvent *event) {
+void level2::timerEvent(QTimerEvent *event) {
     if (event->timerId() == timer1 && mary->is_die) {
         mary->Mary_die();
         Die_Init();
@@ -104,77 +105,77 @@ void GameScene::timerEvent(QTimerEvent *event) {
     }
 }
 
-void GameScene::keyPressEvent(QKeyEvent *event) {
+void level2::keyPressEvent(QKeyEvent *event) {
     if (!mary->is_die) {
         switch (event->key()) {
-            case Qt::Key_Right:
-                mary->direction = key = "right";
-                break;
-            case Qt::Key_Left:
-                mary->direction = key = "left";
-                break;
-            case Qt::Key_Z:
-                timer2 = startTimer(25);
-                is_kill_timer2 = false;
-                break;
-            case Qt::Key_Space:
-                mary->is_jump = true;
-                break;
-            case Qt::Key_B:
-                if (game_start) {
-                    killTimer(timer1);
-                    if (is_kill_timer2) {
-                        killTimer(timer2);
-                    }
-                    killTimer(timer3);
-                    Pause->setParent(this);
-                    Pause->open();
+        case Qt::Key_Right:
+            mary->direction = key = "right";
+            break;
+        case Qt::Key_Left:
+            mary->direction = key = "left";
+            break;
+        case Qt::Key_Z:
+            timer2 = startTimer(25);
+            is_kill_timer2 = false;
+            break;
+        case Qt::Key_Space:
+            mary->is_jump = true;
+            break;
+        case Qt::Key_B:
+            if (game_start) {
+                killTimer(timer1);
+                if (is_kill_timer2) {
+                    killTimer(timer2);
                 }
-                break;
-            case Qt::Key_C:
-                if (mary->life < 8) {
-                    mary->life++;
-                }
-            case Qt::Key_X:
-                if (!is_press_x && !mary->is_jump && mary->is_jump_end && mary->colour == 3) {
-                    is_press_x = true;
-                    fire->Fire_xy();
-                }
-                break;
-            case Qt::Key_W:
+                killTimer(timer3);
+                Pause->setParent(this);
+                Pause->open();
+            }
+            break;
+        case Qt::Key_C:
+            if (mary->life < 8) {
+                mary->life++;
+            }
+        case Qt::Key_X:
+            if (!is_press_x && !mary->is_jump && mary->is_jump_end && mary->colour == 3) {
                 is_press_x = true;
                 fire->Fire_xy();
+            }
+            break;
+        case Qt::Key_W:
+            is_press_x = true;
+            fire->Fire_xy();
         }
     }
 }
 
-void GameScene::keyReleaseEvent(QKeyEvent *event) {
+void level2::keyReleaseEvent(QKeyEvent *event) {
     if (!mary->is_die) {
         switch (event->key()) {
-            case Qt::Key_Right:
-                mary->walk_state = 0;
-                key = "null";
-                break;
-            case Qt::Key_Left:
-                mary->walk_state = 0;
-                key = "null";
-                break;
-            case Qt::Key_Z:
-                is_kill_timer2 = true;
-                killTimer(timer2);
-                break;
-            case Qt::Key_Space:
-                mary->is_jump = false;
-                mary->is_space_release = true;
-                break;
-            case Qt::Key_X:
-                is_press_x = false;
-                break;
+        case Qt::Key_Right:
+            mary->walk_state = 0;
+            key = "null";
+            break;
+        case Qt::Key_Left:
+            mary->walk_state = 0;
+            key = "null";
+            break;
+        case Qt::Key_Z:
+            is_kill_timer2 = true;
+            killTimer(timer2);
+            break;
+        case Qt::Key_Space:
+            mary->is_jump = false;
+            mary->is_space_release = true;
+            break;
+        case Qt::Key_X:
+            is_press_x = false;
+            break;
         }
     }
 }
 
-void GameScene::paintEvent(QPaintEvent *) {
+void level2::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     if(mary->life<=0){
         painter.drawPixmap(0, 0, 800, 545, QPixmap(":/photo/gameover.png"));
@@ -211,7 +212,7 @@ void GameScene::paintEvent(QPaintEvent *) {
     painter.drawPixmap(0, 500, QPixmap(":/photo/ground.png"), mary->ground_state, 0, 800, 45);//画地板
     if (mary->x > 7800) {
         QVector < QVector < int >> ::iterator
-        it = castle->m.begin()->begin();
+            it = castle->m.begin()->begin();
         painter.drawPixmap(*it->begin() - mary->x, *(it->begin() + 1), 200, 200, QPixmap(":/photo/castle.png"));
     }
     if (mushroom->mushroom_state != 0) {
@@ -219,14 +220,14 @@ void GameScene::paintEvent(QPaintEvent *) {
                            QPixmap(":/photo/mushroom" + QString::number(mary->colour) + ".png"));
     }
     for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
-    it++)
+         it++)
     {
         if (*(it->begin()) - mary->x > -50 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) == 1) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 50, 40, QPixmap(":/photo/brick1.png"));
         }
     }
     for (QVector < QVector < int >> ::iterator it = unknown->m.begin()->begin(); it != unknown->m.begin()->end();
-    it++)
+         it++)
     {
         if (*(it->begin()) - mary->x > -50 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) != 0) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), QPixmap(":/photo/unknown.png"),
@@ -241,14 +242,14 @@ void GameScene::paintEvent(QPaintEvent *) {
                            0, 30, 33);
     }
     for (QVector < QVector < int >> ::iterator it = pipe->long_m.begin()->begin(); it != pipe->long_m.begin()->end();
-    it++)
+         it++)
     {
         if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 80, 100, QPixmap(":/photo/pipe_long.png"));
         }
     }
     for (QVector < QVector < int >> ::iterator it = pipe->short_m.begin()->begin(); it != pipe->short_m.begin()->end();
-    it++)
+         it++)
     {
         if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 80, 50, QPixmap(":/photo/pipe_short.png"));
@@ -265,7 +266,7 @@ void GameScene::paintEvent(QPaintEvent *) {
                            QPixmap(":/photo/brick3.png"));
     }
     for (QVector < QVector < int >> ::iterator it = master->m.begin()->begin(); it != master->m.begin()->end();
-    it++)
+         it++)
     {
         if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) != 0) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 40, 40,
@@ -295,7 +296,7 @@ void GameScene::paintEvent(QPaintEvent *) {
     }
 }
 
-void GameScene::Game_Init() {
+void level2::Game_Init() {
     mary = new Mary;
     brick = new Brick;
     pipe = new class Pipe;
@@ -308,14 +309,15 @@ void GameScene::Game_Init() {
     is_press_x = false;
     is_win = false;
     score = 0;
-    time = 300.0;
+
+    mary->life =this->mary->life;
     is_kill_timer2 = true;
     game_start = false;
     master->Master_State(mary, pipe, brick);
     fire->Fire_Move(mary, pipe, brick, master);
 }
 
-void GameScene::Pause_Game_Init() {
+void level2::Pause_Game_Init() {
     key = "null";
     score = 0;
     time = 300.0;
@@ -331,12 +333,12 @@ void GameScene::Pause_Game_Init() {
 
 }
 
-void GameScene::Jump_Collision() {
+void level2::Jump_Collision() {
     if (mary->height - mary->distance <= 0) {
         return;
     }
     for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
-    it++)
+         it++)
     {
         if (*it->begin() - mary->x - 300 >= -30 && *it->begin() - mary->x - 300 <= 30 &&
             *(it->begin() + 1) - mary->y + 40 >= -10 && *(it->begin() + 1) - mary->y + 40 <= 20 &&
@@ -350,7 +352,7 @@ void GameScene::Jump_Collision() {
         }
     }
     for (QVector < QVector < int >> ::iterator it = unknown->m.begin()->begin(); it != unknown->m.begin()->end();
-    it++)
+         it++)
     {
         if (*it->begin() - mary->x - 300 >= -30 && *it->begin() - mary->x - 300 <= 30 &&
             *(it->begin() + 1) - mary->y + 40 >= -10 && *(it->begin() + 1) - mary->y + 40 <= 20) {
@@ -369,10 +371,10 @@ void GameScene::Jump_Collision() {
     }
 }
 
-void GameScene::Move_Collision() {
+void level2::Move_Collision() {
 
     for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
-    it++)
+         it++)
     {
         if (*it->begin() - mary->x - 300 >= 35 && *it->begin() - mary->x - 300 <= 40 &&
             *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && mary->direction == "right" &&
@@ -387,7 +389,7 @@ void GameScene::Move_Collision() {
         }
     }
     for (QVector < QVector < int >> ::iterator it = unknown->m.begin()->begin(); it != unknown->m.begin()->end();
-    it++)
+         it++)
     {
         if (*it->begin() - mary->x - 300 >= 35 && *it->begin() - mary->x - 300 <= 40 &&
             *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && mary->direction == "right") {
@@ -401,7 +403,7 @@ void GameScene::Move_Collision() {
         }
     }
     for (QVector < QVector < int >> ::iterator it = pipe->long_m.begin()->begin(); it != pipe->long_m.begin()->end();
-    it++)
+         it++)
     {
         if (*it->begin() - mary->x - 300 >= 30 && *it->begin() - mary->x - 300 <= 35 &&
             *(it->begin() + 1) < mary->y + 45 && mary->direction == "right") {
@@ -414,7 +416,7 @@ void GameScene::Move_Collision() {
         }
     }
     for (QVector < QVector < int >> ::iterator it = pipe->short_m.begin()->begin(); it != pipe->short_m.begin()->end();
-    it++)
+         it++)
     {
         if (*it->begin() - mary->x - 300 >= 30 && *it->begin() - mary->x - 300 <= 35 &&
             *(it->begin() + 1) < mary->y + 45 && mary->direction == "right") {
@@ -427,7 +429,7 @@ void GameScene::Move_Collision() {
         }
     }
     QVector < QVector < int >> ::iterator
-    it = castle->m.begin()->begin();
+        it = castle->m.begin()->begin();
     if (*it->begin() - mary->x - 300 >= -60 && *it->begin() - mary->x - 300 <= -20 &&
         *(it->begin() + 1) < mary->y - 100 && *(it->begin() + 1) > mary->y - 200) {
 
@@ -437,7 +439,7 @@ void GameScene::Move_Collision() {
     mary->can_move = true;
 }
 
-void GameScene::Fall_Down(int &y) {
+void level2::Fall_Down(int &y) {
     qDebug() << mary->distance;
     if (mary->height - mary->distance < 0) {
         if (y > 455) {
@@ -448,7 +450,7 @@ void GameScene::Fall_Down(int &y) {
             return;
         }
         for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
-        it++)
+             it++)
         {
             if (*it->begin() - mary->x - 300 >= -30 && *it->begin() - mary->x - 300 <= 30 &&
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25 && *(it->begin() + 2) == 1) {
@@ -459,7 +461,7 @@ void GameScene::Fall_Down(int &y) {
             }
         }
         for (QVector < QVector < int >> ::iterator it = unknown->m.begin()->begin(); it != unknown->m.begin()->end();
-        it++)
+             it++)
         {
             if (*it->begin() - mary->x - 300 >= -30 && *it->begin() - mary->x - 300 <= 30 &&
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25) {
@@ -470,8 +472,8 @@ void GameScene::Fall_Down(int &y) {
             }
         }
         for (QVector < QVector < int >> ::iterator it = pipe->long_m.begin()->begin(); it !=
-                                                                                       pipe->long_m.begin()->end();
-        it++)
+                                                                                 pipe->long_m.begin()->end();
+             it++)
         {
             if (*it->begin() - mary->x - 300 >= -50 && *it->begin() - mary->x - 300 <= 30 &&
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25) {
@@ -482,8 +484,8 @@ void GameScene::Fall_Down(int &y) {
             }
         }
         for (QVector < QVector < int >> ::iterator it = pipe->short_m.begin()->begin(); it !=
-                                                                                        pipe->short_m.begin()->end();
-        it++)
+                                                                                  pipe->short_m.begin()->end();
+             it++)
         {
             if (*it->begin() - mary->x - 300 >= -50 && *it->begin() - mary->x - 300 <= 30 &&
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25) {
@@ -496,7 +498,7 @@ void GameScene::Fall_Down(int &y) {
     }
 }
 
-void GameScene::Die_Init() {
+void level2::Die_Init() {
     if (mary->is_die && key != "null") {
         mary->walk_state = 0;
         key = "null";
@@ -530,7 +532,7 @@ void GameScene::Die_Init() {
     }
 }
 
-void GameScene::Game_Win() {
+void level2::Game_Win() {
     killTimer(timer1);
     killTimer(timer3);
     QTimer::singleShot(1000, this, [=]() {
@@ -542,9 +544,9 @@ void GameScene::Game_Win() {
         startTimer(timer1);
         startTimer(timer3);
     });
-
 }
-void GameScene::Game_Over(){
+
+void level2::Game_Over(){
     killTimer(timer1);
     killTimer(timer3);
     QTimer::singleShot(1000, this, [=]() {
@@ -556,3 +558,5 @@ void GameScene::Game_Over(){
         });
     });
 }
+
+
