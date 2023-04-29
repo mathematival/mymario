@@ -16,6 +16,7 @@ level2::level2(QWidget *parent) : QWidget(parent) {
         timer3 = startTimer(50);
         game_start = true;
     });
+    this->setFocusPolicy(Qt::StrongFocus);
 }
 
 void level2::Pause_Init() {
@@ -32,7 +33,7 @@ void level2::Pause_Init() {
             timer1 = startTimer(15);
             timer3 = startTimer(40);
             mary->walk_state = 0;//初始化mary的行走状态
-            key = "null";
+            key = "nullptr";
             Pause->close();
             update();
         });
@@ -189,10 +190,10 @@ void level2::paintEvent(QPaintEvent *) {
         font.setPointSize(35);
         painter.setFont(font);
         painter.drawText(360, 280, "x");
-        painter.drawText(110, 30, "times:");
+        painter.drawText(80, 30, "times:");
         painter.drawText(220, 32, QString::number(time, 'f', 1));
         painter.drawText(600, 30, "coin:");
-        painter.drawText(680, 32, QString::number(unknown->coin));
+        painter.drawText(720, 32, QString::number(unknown->coin));
         font.setPointSize(45);
         painter.setFont(font);
         painter.drawText(400, 287, QString::number(mary->life));
@@ -305,11 +306,11 @@ void level2::Game_Init() {
     master = new Master;
     fire = new Fire;
     castle = new Castle;
-    key = "null";
+    key = "nullptr";
     is_press_x = false;
     is_win = false;
     score = 0;
-
+    time =100.0;
     mary->life =this->mary->life;
     is_kill_timer2 = true;
     game_start = false;
@@ -318,9 +319,9 @@ void level2::Game_Init() {
 }
 
 void level2::Pause_Game_Init() {
-    key = "null";
+    key = "nullptr";
     score = 0;
-    time = 300.0;
+    time = 100.0;
     is_press_x = false;
     is_kill_timer2 = true;
     game_start = false;
@@ -537,7 +538,7 @@ void level2::Game_Win() {
     killTimer(timer3);
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
-        time = 300.0;
+        time = 100.0;
         update();
     });
     QTimer::singleShot(1000, this, [=]() {
@@ -551,7 +552,7 @@ void level2::Game_Over(){
     killTimer(timer3);
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
-        time = 300.0;
+        time = 100.0;
         QTimer::singleShot(1500, this, [=]() {
             this->close();
             emit  this->back();

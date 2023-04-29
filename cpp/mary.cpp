@@ -9,7 +9,7 @@ void Mary::Mary_Init() {
     x = 0;
     y = 455;
     map_x = 0;
-    life = 5;
+    life = 3;
     colour = 1;
     height = 20;
     distance = 0;

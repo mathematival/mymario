@@ -308,7 +308,7 @@ void GameScene::Game_Init() {
     is_press_x = false;
     is_win = false;
     score = 0;
-    time = 300.0;
+    time = 100.0;
     is_kill_timer2 = true;
     game_start = false;
     master->Master_State(mary, pipe, brick);
@@ -318,7 +318,7 @@ void GameScene::Game_Init() {
 void GameScene::Pause_Game_Init() {
     key = "null";
     score = 0;
-    time = 300.0;
+    time = 100.0;
     is_press_x = false;
     is_kill_timer2 = true;
     game_start = false;

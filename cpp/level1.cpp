@@ -17,6 +17,7 @@ level1::level1(QWidget *parent) : QWidget(parent) {
         timer3 = startTimer(50);
         game_start = true;
     });
+    this->setFocusPolicy(Qt::StrongFocus);
 }
 
 void level1::Pause_Init() {
@@ -33,7 +34,7 @@ void level1::Pause_Init() {
             timer1 = startTimer(15);
             timer3 = startTimer(40);
             mary->walk_state = 0;//初始化mary的行走状态
-            key = "null";
+            key = "nullptr";
             Pause->close();
             update();
         });
@@ -155,11 +156,11 @@ void level1::keyReleaseEvent(QKeyEvent *event) {
         switch (event->key()) {
         case Qt::Key_Right:
             mary->walk_state = 0;
-            key = "null";
+            key = "nullptr";
             break;
         case Qt::Key_Left:
             mary->walk_state = 0;
-            key = "null";
+            key = "nullptr";
             break;
         case Qt::Key_Z:
             is_kill_timer2 = true;
@@ -190,10 +191,10 @@ void level1::paintEvent(QPaintEvent *) {
         font.setPointSize(35);
         painter.setFont(font);
         painter.drawText(360, 280, "x");
-        painter.drawText(110, 30, "times:");
+        painter.drawText(80, 30, "times:");
         painter.drawText(220, 32, QString::number(time, 'f', 1));
         painter.drawText(600, 30, "coin:");
-        painter.drawText(680, 32, QString::number(unknown->coin));
+        painter.drawText(720, 32, QString::number(unknown->coin));
         font.setPointSize(45);
         painter.setFont(font);
         painter.drawText(400, 287, QString::number(mary->life));
@@ -306,11 +307,11 @@ void level1::Game_Init() {
     master = new Master;
     fire = new Fire;
     castle = new Castle;
-    key = "null";
+    key = "nullptr";
     is_press_x = false;
     is_win = false;
     score = 0;
-    time = 300.0;
+    time = 100.0;
     is_kill_timer2 = true;
     game_start = false;
     master->Master_State(mary, pipe, brick);
@@ -318,9 +319,9 @@ void level1::Game_Init() {
 }
 
 void level1::Pause_Game_Init() {
-    key = "null";
+    key = "nullptr";
     score = 0;
-    time = 300.0;
+    time = 100.0;
     is_press_x = false;
     is_kill_timer2 = true;
     game_start = false;
@@ -539,7 +540,7 @@ bool level1::level1_Win(bool is_win) {
     if(is_win){
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
-        time = 300.0;
+        time = 100.0;
         update();
     });
     level2 *Level2 = new level2;
@@ -559,7 +560,7 @@ void level1::Game_Over(){
     killTimer(timer3);
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
-        time = 300.0;
+        time = 100.0;
         QTimer::singleShot(1500, this, [=]() {
             this->close();
             emit  this->back();
