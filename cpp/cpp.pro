@@ -12,6 +12,8 @@ SOURCES += \
     brick.cpp \
     castle.cpp \
     fire.cpp \
+    flag.cpp \
+    flagpole.cpp \
     gamehelp.cpp \
     gamepause.cpp \
     gamescene.cpp \
@@ -33,6 +35,8 @@ HEADERS += \
     brick.h \
     castle.h \
     fire.h \
+    flag.h \
+    flagpole.h \
     gamehelp.h \
     gamepause.h \
     gamescene.h \
