@@ -74,5 +74,14 @@
         <file>sound/small_jump.mp3</file>
         <file>sound/stomp.mp3</file>
         <file>photo/background3.jpg</file>
+        <file>photo/bird.png</file>
+        <file>photo/bullet.png</file>
+        <file>photo/cannibal.png</file>
+        <file>photo/flower.png</file>
+        <file>photo/kuba.png</file>
+        <file>photo/mushroom3.png</file>
+        <file>photo/rainbow.png</file>
+        <file>photo/shell.png</file>
+        <file>photo/background4.jpg</file>
     </qresource>
 </RCC>

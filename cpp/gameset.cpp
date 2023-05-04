@@ -48,7 +48,7 @@ Gameset::Gameset(QWidget *parent) : QWidget(parent) {
 
 void Gameset::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-    painter.drawPixmap(0, 0, 800, 550, QPixmap(":/photo/background3.jpg"));
+    painter.drawPixmap(0, 0, 800, 550, QPixmap(":/photo/background4.jpg"));
 }
 
 

@@ -9,16 +9,21 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    bird.cpp \
     brick.cpp \
+    bullet.cpp \
+    cannibal.cpp \
     castle.cpp \
     fire.cpp \
     flag.cpp \
     flagpole.cpp \
+    flower.cpp \
     gamehelp.cpp \
     gamepause.cpp \
     gamescene.cpp \
     gameset.cpp \
     global.cpp \
+    kuba.cpp \
     level1.cpp \
     level2.cpp \
     main.cpp \
@@ -29,19 +34,26 @@ SOURCES += \
     musicplayer.cpp \
     mypushbutton.cpp \
     pipe.cpp \
+    rainbow.cpp \
+    shell.cpp \
     unknown.cpp
 
 HEADERS += \
+    bird.h \
     brick.h \
+    bullet.h \
+    cannibal.h \
     castle.h \
     fire.h \
     flag.h \
     flagpole.h \
+    flower.h \
     gamehelp.h \
     gamepause.h \
     gamescene.h \
     gameset.h \
     global.h \
+    kuba.h \
     level1.h \
     level2.h \
     mainwindow.h \
@@ -51,6 +63,8 @@ HEADERS += \
     musicplayer.h \
     mypushbutton.h \
     pipe.h \
+    rainbow.h \
+    shell.h \
     unknown.h
 
 FORMS += \
