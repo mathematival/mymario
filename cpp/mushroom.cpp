@@ -1,18 +1,43 @@
 #include <mushroom.h>
 #include<QDebug>
-MushRoom::MushRoom()
+MushRoom::MushRoom(int a)
 {
-    MushRoom_Init();
+    if(a==1)
+    {
+        MushRoom_Init1();
+    }
+    if(a==2)
+    {
+        MushRoom_Init2();
+    }
+    if(a==3)
+    {
+        MushRoom_Init3();
+    }
 }
 
-
-void MushRoom::MushRoom_Init(){
+void MushRoom::MushRoom_Init1(){
     mushroom_kind=0;
     mushroom_x=0;
     mushroom_y=0;
     mushroom_state=0;
     mushroom_fall_down_distance=19;
+}
 
+void MushRoom::MushRoom_Init2(){
+    mushroom_kind=0;
+    mushroom_x=0;
+    mushroom_y=0;
+    mushroom_state=0;
+    mushroom_fall_down_distance=19;
+}
+
+void MushRoom::MushRoom_Init3(){
+    mushroom_kind=0;
+    mushroom_x=0;
+    mushroom_y=0;
+    mushroom_state=0;
+    mushroom_fall_down_distance=19;
 }
 
 void MushRoom::MushRoom_Move(QVector<QVector<int>>::iterator it,Unknown *u,Brick *r, Mary *m){

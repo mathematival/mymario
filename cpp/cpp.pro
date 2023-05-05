@@ -20,7 +20,6 @@ SOURCES += \
     flower.cpp \
     gamehelp.cpp \
     gamepause.cpp \
-    gamescene.cpp \
     gameset.cpp \
     global.cpp \
     kuba.cpp \
@@ -50,7 +49,6 @@ HEADERS += \
     flower.h \
     gamehelp.h \
     gamepause.h \
-    gamescene.h \
     gameset.h \
     global.h \
     kuba.h \

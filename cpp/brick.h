@@ -15,8 +15,10 @@ public:
     int right_shatter_x;
     int right_shatter_y;
     int shatter_state;
-    Brick();
-    void BrickInit();
+    Brick(int a);
+    void BrickInit1();
+    void BrickInit2();
+    void BrickInit3();
     void ShatterState();
     void BrickShatter(QVector<QVector <int>>::iterator it
                       );

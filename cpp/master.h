@@ -21,13 +21,14 @@ public:
     QVector<QVector < int>>::
         iterator itm;
 
-    void Master_Init();
-
+    void Master_Init1();
+    void Master_Init2();
+    void Master_Init3();
     void Master_State(Mary *m, Pipe *p, Brick *r);
 
     void Master_Move();
 
-    Master();
+    Master(int a);
 };
 
 #endif // MASTER_H

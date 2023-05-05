@@ -2,12 +2,22 @@
 #include"mary.h"
 #include"QDebug"
 
-Master::Master() {
-    Master_Init();
+Master::Master(int a) {
+    if(a==1)
+    {
+        Master_Init1();
+    }
+    if(a==2)
+    {
+        Master_Init2();
+    }
+    if(a==3)
+    {
+        Master_Init3();
+    }
 }
 
-
-void Master::Master_Init() {
+void Master::Master_Init1() {
     die_state = 0;
     direction = "left";
     QVector<int> v;
@@ -34,6 +44,59 @@ void Master::Master_Init() {
     v1.clear();
 }
 
+void Master::Master_Init2() {
+    die_state = 0;
+    direction = "left";
+    QVector<int> v;
+    int arr[10][2] = {{2370, 460},
+                      {2670, 460},
+                      {3000, 460},
+                      {3200, 460},
+                      {3230, 460},
+                      {3600, 460},
+                      {4000, 460},
+                      {4500, 460},
+                      {5500, 460},
+                      {6200, 460}};
+    for (int i = 0; i < 10; i++) {
+        v.push_back(arr[i][0]);
+        v.push_back(arr[i][1]);
+        v.push_back(1);
+        v.push_back(0);//0代表左
+        v.push_back(0);//0代表没有展示压扁的master
+        v1.push_back(v);
+        v.clear();
+    }
+    m.insert(1, v1);
+    v1.clear();
+}
+
+void Master::Master_Init3() {
+    die_state = 0;
+    direction = "left";
+    QVector<int> v;
+    int arr[10][2] = {{2370, 460},
+                      {2670, 460},
+                      {3000, 460},
+                      {3200, 460},
+                      {3230, 460},
+                      {3600, 460},
+                      {4000, 460},
+                      {4500, 460},
+                      {5500, 460},
+                      {6200, 460}};
+    for (int i = 0; i < 10; i++) {
+        v.push_back(arr[i][0]);
+        v.push_back(arr[i][1]);
+        v.push_back(1);
+        v.push_back(0);//0代表左
+        v.push_back(0);//0代表没有展示压扁的master
+        v1.push_back(v);
+        v.clear();
+    }
+    m.insert(1, v1);
+    v1.clear();
+}
 
 void Master::Master_State(Mary *m, Pipe *p, Brick *r) {
     mary = m;

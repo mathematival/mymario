@@ -16,10 +16,11 @@ public:
     QVector <QVector<int>> v2;
     QMap<int, QVector<QVector < int>>> m;
 
-    Unknown();
+    Unknown(int a);
 
-    void Unknown_Init();
-
+    void Unknown_Init1();
+    void Unknown_Init2();
+    void Unknown_Init3();
     void Unknown_State();
 
     void Crash_state();

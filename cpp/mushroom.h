@@ -18,8 +18,10 @@ public:
     Brick *brick;
     Unknown *unknown;
     Mary *mary;
-    MushRoom();
-    void MushRoom_Init();
+    MushRoom(int a);
+    void MushRoom_Init1();
+    void MushRoom_Init2();
+    void MushRoom_Init3();
     void Move_state();
     void MushRoom_Move(QVector<QVector<int>>::iterator it,Unknown *u,Brick *r, Mary *m);
 };

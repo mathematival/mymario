@@ -3,7 +3,6 @@
 #include<QSoundEffect>
 #include <QDebug>
 #include <global.h>
-#include<pipe.h>
 #include<QPixmap>
 
 level2::level2(QWidget *parent) : QWidget(parent) {
@@ -86,6 +85,7 @@ void level2::timerEvent(QTimerEvent *event) {
         brick->ShatterState();
         mushroom->Move_state();
         master->Master_Move();
+        bullet->Bullet_Move();
         Die_Init();
         Fall_Down(mary->y);
         fire->Fire_state();
@@ -190,10 +190,10 @@ void level2::paintEvent(QPaintEvent *) {
         font.setPointSize(35);
         painter.setFont(font);
         painter.drawText(360, 280, "x");
-        painter.drawText(80, 30, "times:");
-        painter.drawText(220, 32, QString::number(time, 'f', 1));
-        painter.drawText(600, 30, "coin:");
-        painter.drawText(720, 32, QString::number(unknown->coin));
+        painter.drawText(80, 38, "times:");
+        painter.drawText(220, 38, QString::number(time, 'f', 1));
+        painter.drawText(600, 38, "coin:");
+        painter.drawText(720, 38, QString::number(unknown->coin));
         font.setPointSize(45);
         painter.setFont(font);
         painter.drawText(400, 287, QString::number(mary->life));
@@ -203,13 +203,13 @@ void level2::paintEvent(QPaintEvent *) {
     painter.drawPixmap(230, 10, QPixmap(":/photo/coin.png"), 0, 0, 30, 30);
     painter.drawPixmap(380, 10, 30, 30, QPixmap(":/photo/score.png"));
     painter.setFont(QFont("Times", 45, QFont::Bold));
-    painter.drawText(280, 38, QString::number(unknown->coin));
-    painter.drawText(430, 38, QString::number(score));
+    painter.drawText(280, 48, QString::number(unknown->coin));
+    painter.drawText(430, 48, QString::number(score));
     for (int i = 1; i <= mary->life; i++) {
         painter.drawPixmap(800 - i * 35, 10, 30, 30, QPixmap(":/photo/life.png"));
     }
-    painter.drawPixmap(10, 10, 30, 30, QPixmap(":/photo/time.png"));
-    painter.drawText(50, 38, QString::number(time, 'f', 1));
+    painter.drawPixmap(10, 12, 30, 30, QPixmap(":/photo/time.png"));
+    painter.drawText(50, 48, QString::number(time, 'f', 1));
     painter.drawPixmap(0, 500, QPixmap(":/photo/ground.png"), mary->ground_state, 0, 800, 45);//画地板
     if (mary->x > 7800) {
         QVector < QVector < int >> ::iterator
@@ -225,6 +225,13 @@ void level2::paintEvent(QPaintEvent *) {
     {
         if (*(it->begin()) - mary->x > -50 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) == 1) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 50, 40, QPixmap(":/photo/brick1.png"));
+        }
+    }
+    for (QVector < QVector < int >> ::iterator it = flower->m.begin()->begin(); it != flower->m.begin()->end();
+         it++)
+    {
+        if (*(it->begin()) - mary->x > -50 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) == 1) {
+            painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 50, 40, QPixmap(":/photo/flower.png"));
         }
     }
     for (QVector < QVector < int >> ::iterator it = unknown->m.begin()->begin(); it != unknown->m.begin()->end();
@@ -278,6 +285,18 @@ void level2::paintEvent(QPaintEvent *) {
                                QPixmap(":/photo/master_" + QString::number(*(it->begin() + 3)) + ".png"));
         }
     }
+    for (QVector < QVector < int >> ::iterator it = bullet->m.begin()->begin(); it != bullet->m.begin()->end();
+         it++)
+    {
+        if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) != 0) {
+            painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 40, 40,
+                               QPixmap(":/photo/bullet" + QString::number(*(it->begin() + 3)) + ".png"));
+        } else if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) == 0 &&
+                   *(it->begin() + 4) == 1) {
+            painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1) + 20, 40, 20,
+                               QPixmap(":/photo/bullet" + QString::number(*(it->begin() + 3)) + ".png"));
+        }
+    }
     if (mary->is_die) {
         painter.drawPixmap(mary->map_x, mary->y, QPixmap(":/photo/mary_die.png"), mary->die_pix_state, 0, 50, 50);//画角色
     }
@@ -299,11 +318,13 @@ void level2::paintEvent(QPaintEvent *) {
 
 void level2::Game_Init() {
     mary = new Mary;
-    brick = new Brick;
-    pipe = new class Pipe;
-    unknown = new Unknown;
-    mushroom = new MushRoom;
-    master = new Master;
+    brick = new Brick(2);
+    flower = new Flower(2);
+    pipe = new class Pipe(2);
+    unknown = new Unknown(2);
+    mushroom = new MushRoom(2);
+    master = new Master(2);
+    bullet = new Bullet(2);
     fire = new Fire;
     castle = new Castle;
     key = "nullptr";
@@ -315,6 +336,7 @@ void level2::Game_Init() {
     is_kill_timer2 = true;
     game_start = false;
     master->Master_State(mary, pipe, brick);
+    bullet->Bullet_State(mary, pipe, brick);
     fire->Fire_Move(mary, pipe, brick, master);
 }
 
@@ -326,12 +348,14 @@ void level2::Pause_Game_Init() {
     is_kill_timer2 = true;
     game_start = false;
     mary->Mary_Init();
-    unknown->Unknown_Init();
-    brick->BrickInit();
-    mushroom->MushRoom_Init();
-    master->Master_Init();
+    unknown->Unknown_Init2();
+    brick->BrickInit2();
+    flower->Flower_Init2();
+    mushroom->MushRoom_Init2();
+    master->Master_Init2();
     master->Master_State(mary, pipe, brick);
-
+    bullet->Bullet_Init2();
+    bullet->Bullet_State(mary, pipe, brick);
 }
 
 void level2::Jump_Collision() {
@@ -370,6 +394,18 @@ void level2::Jump_Collision() {
             return;
         }
     }
+    for (QVector < QVector < int >> ::iterator it = flower->m.begin()->begin(); it != flower->m.begin()->end();
+         it++)
+    {
+        if (*it->begin() - mary->x - 300 >= -30 && *it->begin() - mary->x - 300 <= 30 &&
+            *(it->begin() + 1) - mary->y + 40 >= -10 && *(it->begin() + 1) - mary->y + 40 <= 20 &&
+            *(it->begin() + 2) == 1) {
+            score += 10;
+            mary->colour = 3;
+            *(it->begin() + 2) = 0;
+            return;
+        }
+    }
 }
 
 void level2::Move_Collision() {
@@ -400,6 +436,23 @@ void level2::Move_Collision() {
                    *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 &&
                    mary->direction == "left") {
             mary->can_move = false;
+            return;
+        }
+    }
+    for (QVector < QVector < int >> ::iterator it = flower->m.begin()->begin(); it != flower->m.begin()->end();
+         it++)
+    {
+        if (*it->begin() - mary->x - 300 >= 36 && *it->begin() - mary->x - 300 <= 39 &&
+            *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && mary->direction == "right") {
+            mary->colour = 3;
+            *(it->begin() + 2) = 0;
+            return;
+        } else if (*it->begin() - mary->x - 300 >= -39 && *it->begin() - mary->x - 300 <= -36 &&
+                   *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 &&
+                   mary->direction == "left") {
+            score += 10;
+            mary->colour = 3;
+            *(it->begin() + 2) = 0;
             return;
         }
     }

@@ -19,6 +19,8 @@
 #include<mypushbutton.h>
 #include"fire.h"
 #include"castle.h"
+#include"bullet.h"
+#include"flower.h"
 
 class level2 : public QWidget {
     Q_OBJECT
@@ -37,11 +39,13 @@ public:
     QString key;
     Mary *mary;
     Brick *brick;
+    Flower *flower;
     Pipe *pipe;
     Unknown *unknown;
     MushRoom *mushroom;
     GamePause *Pause;
     Master *master;
+    Bullet *bullet;
     Fire *fire;
     Castle *castle;
 

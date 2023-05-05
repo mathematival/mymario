@@ -12,9 +12,10 @@ public:
     QMap<int, QVector<QVector < int>>> short_m;
     QMap<int, QVector<QVector < int>>> long_m;
 
-    void Pipe_Init();
-
-    Pipe();
+    void Pipe_Init1();
+    void Pipe_Init2();
+    void Pipe_Init3();
+    Pipe(int a);
 };
 
 #endif // PIPE_H

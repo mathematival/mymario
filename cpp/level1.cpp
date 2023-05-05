@@ -4,7 +4,6 @@
 #include<QSoundEffect>
 #include <QDebug>
 #include <global.h>
-#include<pipe.h>
 #include<QPixmap>
 
 level1::level1(QWidget *parent) : QWidget(parent) {
@@ -191,10 +190,10 @@ void level1::paintEvent(QPaintEvent *) {
         font.setPointSize(35);
         painter.setFont(font);
         painter.drawText(360, 280, "x");
-        painter.drawText(80, 30, "times:");
-        painter.drawText(220, 32, QString::number(time, 'f', 1));
-        painter.drawText(600, 30, "coin:");
-        painter.drawText(720, 32, QString::number(unknown->coin));
+        painter.drawText(80, 38, "times:");
+        painter.drawText(220, 38, QString::number(time, 'f', 1));
+        painter.drawText(600, 38, "coin:");
+        painter.drawText(720, 38, QString::number(unknown->coin));
         font.setPointSize(45);
         painter.setFont(font);
         painter.drawText(400, 287, QString::number(mary->life));
@@ -204,13 +203,13 @@ void level1::paintEvent(QPaintEvent *) {
     painter.drawPixmap(230, 10, QPixmap(":/photo/coin.png"), 0, 0, 30, 30);
     painter.drawPixmap(380, 10, 30, 30, QPixmap(":/photo/score.png"));
     painter.setFont(QFont("Times", 45, QFont::Bold));
-    painter.drawText(280, 38, QString::number(unknown->coin));
-    painter.drawText(430, 38, QString::number(score));
+    painter.drawText(280, 48, QString::number(unknown->coin));
+    painter.drawText(430, 48, QString::number(score));
     for (int i = 1; i <= mary->life; i++) {
         painter.drawPixmap(800 - i * 35, 10, 30, 30, QPixmap(":/photo/life.png"));
     }
-    painter.drawPixmap(10, 10, 30, 30, QPixmap(":/photo/time.png"));
-    painter.drawText(50, 38, QString::number(time, 'f', 1));
+    painter.drawPixmap(10, 12, 30, 30, QPixmap(":/photo/time.png"));
+    painter.drawText(50, 48, QString::number(time, 'f', 1));
     painter.drawPixmap(0, 500, QPixmap(":/photo/ground.png"), mary->ground_state, 0, 800, 45);//画地板
     if (mary->x > 7800) {
         QVector < QVector < int >> ::iterator
@@ -300,11 +299,11 @@ void level1::paintEvent(QPaintEvent *) {
 
 void level1::Game_Init() {
     mary = new Mary;
-    brick = new Brick;
-    pipe = new class Pipe;
-    unknown = new Unknown;
-    mushroom = new MushRoom;
-    master = new Master;
+    brick = new Brick(1);
+    pipe = new class Pipe(1);
+    unknown = new Unknown(1);
+    mushroom = new MushRoom(1);
+    master = new Master(1);
     fire = new Fire;
     castle = new Castle;
     key = "nullptr";
@@ -326,12 +325,11 @@ void level1::Pause_Game_Init() {
     is_kill_timer2 = true;
     game_start = false;
     mary->Mary_Init();
-    unknown->Unknown_Init();
-    brick->BrickInit();
-    mushroom->MushRoom_Init();
-    master->Master_Init();
+    unknown->Unknown_Init1();
+    brick->BrickInit1();
+    mushroom->MushRoom_Init1();
+    master->Master_Init1();
     master->Master_State(mary, pipe, brick);
-
 }
 
 void level1::Jump_Collision() {
