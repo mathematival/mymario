@@ -78,6 +78,13 @@ void level2::timerEvent(QTimerEvent *event) {
         return;
     }
     if (event->timerId() == timer1) {
+        if(mary->is_big){
+            invincible_time -= 0.015;
+        }
+        if(invincible_time<0){
+            mary->is_big = false;
+            mary->is_invincible = false;
+        }
         mary->Mary_Move(key);
         mary->Jump_And_Down();
         Jump_Collision();
@@ -94,6 +101,8 @@ void level2::timerEvent(QTimerEvent *event) {
 
     if (event->timerId() == timer2) {
         mary->Mary_Move(key);
+        Jump_Collision();
+        Move_Collision();
     }
 
     if (event->timerId() == timer3) {
@@ -234,6 +243,13 @@ void level2::paintEvent(QPaintEvent *) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 50, 40, QPixmap(":/photo/flower.png"));
         }
     }
+    for (QVector < QVector < int >> ::iterator it = rainbow->m.begin()->begin(); it != rainbow->m.begin()->end();
+         it++)
+    {
+        if (*(it->begin()) - mary->x > -50 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) == 1) {
+            painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 50, 40, QPixmap(":/photo/rainbow.png"));
+        }
+    }
     for (QVector < QVector < int >> ::iterator it = unknown->m.begin()->begin(); it != unknown->m.begin()->end();
          it++)
     {
@@ -297,13 +313,27 @@ void level2::paintEvent(QPaintEvent *) {
                                QPixmap(":/photo/bullet" + QString::number(*(it->begin() + 3)) + ".png"));
         }
     }
-    if (mary->is_die) {
-        painter.drawPixmap(mary->map_x, mary->y, QPixmap(":/photo/mary_die.png"), mary->die_pix_state, 0, 50, 50);//画角色
+    if (mary->is_die)//画角色
+    {
+        if(mary->is_big){
+            painter.drawPixmap(mary->map_x-10, mary->y-20,65,65, QPixmap(":/photo/mary_die.png"), mary->die_pix_state, 0, 50, 50);
+        }
+        else {
+            painter.drawPixmap(mary->map_x, mary->y, QPixmap(":/photo/mary_die.png"), mary->die_pix_state, 0, 50, 50);
+        }
     }
-    if (!mary->is_die && mary->invincible_state % 2 == 0 && !is_win) {
-        painter.drawPixmap(mary->map_x, mary->y,
+    if (!mary->is_die && mary->invincible_state % 2 == 0 && !is_win)//画角色
+    {
+        if(mary->is_big){
+            painter.drawPixmap(mary->map_x-10, mary->y-20,65,65,
+                               QPixmap(":/photo/walk_" + mary->direction + QString::number(mary->colour) + ".png"),
+                               mary->walk_state, 0, 45, 45);
+        }
+        else {
+            painter.drawPixmap(mary->map_x, mary->y,
                            QPixmap(":/photo/walk_" + mary->direction + QString::number(mary->colour) + ".png"),
-                           mary->walk_state, 0, 45, 45);//画角色
+                               mary->walk_state, 0, 45, 45);
+        }
     }
     if (fire->is_have) {
         painter.drawPixmap(fire->x - mary->x, fire->y, 20, 20, QPixmap(":/photo/fire.png"));
@@ -320,6 +350,7 @@ void level2::Game_Init() {
     mary = new Mary;
     brick = new Brick(2);
     flower = new Flower(2);
+    rainbow = new Rainbow(2);
     pipe = new class Pipe(2);
     unknown = new Unknown(2);
     mushroom = new MushRoom(2);
@@ -351,6 +382,7 @@ void level2::Pause_Game_Init() {
     unknown->Unknown_Init2();
     brick->BrickInit2();
     flower->Flower_Init2();
+    rainbow->Rainbow_Init2();
     mushroom->MushRoom_Init2();
     master->Master_Init2();
     master->Master_State(mary, pipe, brick);
@@ -406,10 +438,23 @@ void level2::Jump_Collision() {
             return;
         }
     }
+    for (QVector < QVector < int >> ::iterator it = rainbow->m.begin()->begin(); it != rainbow->m.begin()->end();
+         it++)
+    {
+        if (*it->begin() - mary->x - 300 >= -30 && *it->begin() - mary->x - 300 <= 30 &&
+            *(it->begin() + 1) - mary->y + 40 >= -10 && *(it->begin() + 1) - mary->y + 40 <= 20 &&
+            *(it->begin() + 2) == 1) {
+            score += 10;
+            mary->is_big = true;
+            mary->is_invincible = true;
+            invincible_time = 15.0;
+            *(it->begin() + 2) = 0;
+            return;
+        }
+    }
 }
 
 void level2::Move_Collision() {
-
     for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
          it++)
     {
@@ -442,16 +487,39 @@ void level2::Move_Collision() {
     for (QVector < QVector < int >> ::iterator it = flower->m.begin()->begin(); it != flower->m.begin()->end();
          it++)
     {
-        if (*it->begin() - mary->x - 300 >= 36 && *it->begin() - mary->x - 300 <= 39 &&
+        if (*it->begin() - mary->x - 300 >= 30&& *it->begin() - mary->x - 300 <= 35 &&
             *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && mary->direction == "right") {
+            score += 10;
             mary->colour = 3;
             *(it->begin() + 2) = 0;
             return;
-        } else if (*it->begin() - mary->x - 300 >= -39 && *it->begin() - mary->x - 300 <= -36 &&
+        } else if (*it->begin() - mary->x - 300 >= -35 && *it->begin() - mary->x - 300 <= -30 &&
                    *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 &&
                    mary->direction == "left") {
             score += 10;
             mary->colour = 3;
+            *(it->begin() + 2) = 0;
+            return;
+        }
+    }
+    for (QVector < QVector < int >> ::iterator it = rainbow->m.begin()->begin(); it != rainbow->m.begin()->end();
+         it++)
+    {
+        if (*it->begin() - mary->x - 300 >= 30&& *it->begin() - mary->x - 300 <= 35 &&
+            *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && mary->direction == "right") {
+            score += 10;
+            mary->is_big = true;
+            mary->is_invincible = true;
+            invincible_time = 15.0;
+            *(it->begin() + 2) = 0;
+            return;
+        } else if (*it->begin() - mary->x - 300 >= -35 && *it->begin() - mary->x - 300 <= -30 &&
+                   *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 &&
+                   mary->direction == "left") {
+            score += 10;
+            mary->is_big = true;
+            mary->is_invincible = true;
+            invincible_time =15.0;
             *(it->begin() + 2) = 0;
             return;
         }
@@ -561,7 +629,7 @@ void level2::Die_Init() {
         mary->is_invincible = false;
         mary->invincible_state = 0;
     }
-    if (mary->is_invincible) {
+    if ((mary->is_invincible)&&(!mary->is_big)) {
         mary->invincible_state += 1;
     }
     if (mary->y > 500) {
@@ -589,6 +657,7 @@ void level2::Die_Init() {
 void level2::Game_Win() {
     killTimer(timer1);
     killTimer(timer3);
+    killTimer(timer2);
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
         time = 100.0;
@@ -603,6 +672,7 @@ void level2::Game_Win() {
 void level2::Game_Over(){
     killTimer(timer1);
     killTimer(timer3);
+    killTimer(timer2);
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
         time = 100.0;

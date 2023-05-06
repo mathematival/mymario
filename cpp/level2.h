@@ -21,6 +21,7 @@
 #include"castle.h"
 #include"bullet.h"
 #include"flower.h"
+#include"rainbow.h"
 
 class level2 : public QWidget {
     Q_OBJECT
@@ -33,6 +34,7 @@ public:
     bool is_kill_timer2;
     bool game_start;
     double time;
+    double invincible_time = 0.0;
     int score;
     bool is_press_x;
     bool is_win;
@@ -40,6 +42,7 @@ public:
     Mary *mary;
     Brick *brick;
     Flower *flower;
+    Rainbow *rainbow;
     Pipe *pipe;
     Unknown *unknown;
     MushRoom *mushroom;

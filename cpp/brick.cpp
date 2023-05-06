@@ -1,8 +1,6 @@
 #include "brick.h"
 #include<iostream>
 
-using namespace std;
-
 Brick::Brick(int a) {
     if(a==1)
     {

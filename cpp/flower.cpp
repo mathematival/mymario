@@ -1,8 +1,6 @@
 #include "flower.h"
 #include<iostream>
 
-using namespace std;
-
 Flower::Flower(int a) {
     if(a==2)
     {

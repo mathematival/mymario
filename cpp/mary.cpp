@@ -23,6 +23,7 @@ void Mary::Mary_Init() {
     is_jump_end = true;
     is_space_release = true;
     is_invincible = false;
+    is_big = false;
     direction = "right";
     invincible_state = 0;
 }

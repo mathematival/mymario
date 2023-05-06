@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     start_btn->move(30,this->height()*0.25);
     connect(start_btn, &QPushButton::clicked, [=]() {
         start_btn->zoom1();
-        start_btn->zoom2();
+        start_btn->zoom2();       
         QTimer::singleShot(500,this,[=](){
             this->hide();
             level1 *Level1=new level1;

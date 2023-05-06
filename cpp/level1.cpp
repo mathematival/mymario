@@ -94,6 +94,8 @@ void level1::timerEvent(QTimerEvent *event) {
 
     if (event->timerId() == timer2) {
         mary->Mary_Move(key);
+        Jump_Collision();
+        Move_Collision();
     }
 
     if (event->timerId() == timer3) {
@@ -535,6 +537,7 @@ void level1::Die_Init() {
 bool level1::level1_Win(bool is_win) {
     killTimer(timer1);
     killTimer(timer3);
+    killTimer(timer2);
     if(is_win){
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
@@ -542,8 +545,8 @@ bool level1::level1_Win(bool is_win) {
         update();
     });
     level2 *Level2 = new level2;
-    Level2->show();
     this->hide();
+    Level2->show();
     connect(Level2,&level2::back,this,[=](){
         this->close();
         emit  this->back();
@@ -556,6 +559,7 @@ bool level1::level1_Win(bool is_win) {
 void level1::Game_Over(){
     killTimer(timer1);
     killTimer(timer3);
+    killTimer(timer2);
     QTimer::singleShot(1000, this, [=]() {
         game_start = false;
         time = 100.0;

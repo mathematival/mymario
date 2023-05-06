@@ -22,6 +22,7 @@ public:
     int invincible_state;
     bool can_move;
     bool is_invincible;
+    bool is_big;
     bool is_die;//判断角色是否死亡
     bool is_jump;//判断角色是否跳跃
     bool is_jump_end;//判断角色单次跳跃是否结束
