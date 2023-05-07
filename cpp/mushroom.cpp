@@ -44,7 +44,7 @@ void MushRoom::MushRoom_Move(QVector<QVector<int>>::iterator it,Unknown *u,Brick
     unknown = u;
     brick = r;
     mary = m;
-    if(mary->colour==1){
+    if((mary->colour==1)||(mary->colour==3)){
         mushroom_kind = 1;
     }else{
         mushroom_kind = 2;

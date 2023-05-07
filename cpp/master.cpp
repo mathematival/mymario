@@ -18,6 +18,7 @@ Master::Master(int a) {
 }
 
 void Master::Master_Init1() {
+    m.clear();//清空元素
     die_state = 0;
     direction = "left";
     QVector<int> v;
@@ -45,18 +46,13 @@ void Master::Master_Init1() {
 }
 
 void Master::Master_Init2() {
+    m.clear();
     die_state = 0;
     direction = "left";
     QVector<int> v;
-    int arr[10][2] = {{2370, 460},
-                      {2670, 460},
-                      {3000, 460},
-                      {3200, 460},
-                      {3230, 460},
-                      {3600, 460},
-                      {4000, 460},
-                      {4500, 460},
-                      {5500, 460},
+    int arr[10][2] = {{1170, 460},
+                      {1370, 460},
+                      {1870, 460},
                       {6200, 460}};
     for (int i = 0; i < 10; i++) {
         v.push_back(arr[i][0]);
@@ -72,6 +68,7 @@ void Master::Master_Init2() {
 }
 
 void Master::Master_Init3() {
+    m.clear();
     die_state = 0;
     direction = "left";
     QVector<int> v;

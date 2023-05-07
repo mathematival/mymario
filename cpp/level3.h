@@ -1,6 +1,5 @@
-
-#ifndef LEVEL2_H
-#define LEVEL2_H
+#ifndef LEVEL3_H
+#define LEVEL3_H
 
 #include <QWidget>
 #include<QPainter>
@@ -23,11 +22,11 @@
 #include"flower.h"
 #include"rainbow.h"
 
-class level2 : public QWidget {
+class level3 : public QWidget {
     Q_OBJECT
 
 public:
-    explicit level2(QWidget *parent = nullptr);
+    explicit level3(QWidget *parent = nullptr);
     int timer1;
     int timer2;
     int timer3;
@@ -68,7 +67,7 @@ public:
 
     void Jump_Collision();//角色跳跃碰撞检测
     void Move_Collision();//移动碰撞检测
-    bool level2_Win(bool is_win);
+    void Game_Win();
     void Game_Over();
 signals:
     void back();
@@ -76,4 +75,4 @@ private:
 
 };
 
-#endif // LEVEL2_H
+#endif // LEVEL3_H

@@ -13,7 +13,8 @@ Rainbow::Rainbow(int a) {
 }
 
 void Rainbow::Rainbow_Init2() {
-    int arr[1][2] = {{3750, 160}};
+    m.clear();
+    int arr[1][2] = {{6100, 180}};
     for (int i = 0; i < 1; i++) {
         v.push_back(arr[i][0]);
         v.push_back(arr[i][1]);
@@ -25,7 +26,8 @@ void Rainbow::Rainbow_Init2() {
 }
 
 void Rainbow::Rainbow_Init3() {
-    int arr[1][2] = {{3750, 160}};
+    m.clear();
+    int arr[1][2] = {{3750, 180}};
     for (int i = 0; i < 1; i++) {
         v.push_back(arr[i][0]);
         v.push_back(arr[i][1]);

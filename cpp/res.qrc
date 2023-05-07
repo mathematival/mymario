@@ -84,5 +84,6 @@
         <file>photo/background4.jpg</file>
         <file>photo/bullet0.png</file>
         <file>photo/bullet1.png</file>
+        <file>photo/victory.png</file>
     </qresource>
 </RCC>

@@ -102,6 +102,8 @@ void level1::timerEvent(QTimerEvent *event) {
         time -= 0.05;
         if(time<=0.0){
             Game_Over();
+            update();
+            return;
         };
         unknown->Unknown_State();
         unknown->Crash_state();
@@ -180,7 +182,7 @@ void level1::keyReleaseEvent(QKeyEvent *event) {
 
 void level1::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-    if(mary->life<=0){
+    if((mary->life<=0)||(time<=0.0)){
         painter.drawPixmap(0, 0, 800, 545, QPixmap(":/photo/gameover.png"));
         return;
     }
@@ -216,7 +218,7 @@ void level1::paintEvent(QPaintEvent *) {
     if (mary->x > 7800) {
         QVector < QVector < int >> ::iterator
             it = castle->m.begin()->begin();
-        painter.drawPixmap(*it->begin() - mary->x, *(it->begin() + 1), 200, 200, QPixmap(":/photo/castle.png"));
+        painter.drawPixmap(*it->begin() - mary->x-20, *(it->begin() + 1), 220, 220, QPixmap(":/photo/castle.png"));
     }
     if (mushroom->mushroom_state != 0) {
         painter.drawPixmap(mushroom->mushroom_x - mary->x, mushroom->mushroom_y, 40, 40,
@@ -436,7 +438,6 @@ void level1::Move_Collision() {
 
         is_win = true;
         is_win= level1_Win(is_win);
-
     }
     mary->can_move = true;
 }
@@ -448,7 +449,7 @@ void level1::Fall_Down(int &y) {
             y = 455;
             mary->is_jump_end = true;
             mary->distance = 0;
-            mary->height = 20;
+            mary->height = 18;
             return;
         }
         for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
@@ -458,7 +459,7 @@ void level1::Fall_Down(int &y) {
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25 && *(it->begin() + 2) == 1) {
                 y = *(it->begin() + 1) - 45;
                 mary->is_jump_end = true;
-                mary->height = mary->distance = 20;
+                mary->height = mary->distance = 18;
                 return;
             }
         }
@@ -469,7 +470,7 @@ void level1::Fall_Down(int &y) {
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25) {
                 y = *(it->begin() + 1) - 45;
                 mary->is_jump_end = true;
-                mary->height = mary->distance = 20;
+                mary->height = mary->distance = 18;
                 return;
             }
         }
@@ -481,7 +482,7 @@ void level1::Fall_Down(int &y) {
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25) {
                 y = *(it->begin() + 1) - 45;
                 mary->is_jump_end = true;
-                mary->height = mary->distance = 20;
+                mary->height = mary->distance = 18;
                 return;
             }
         }
@@ -493,7 +494,7 @@ void level1::Fall_Down(int &y) {
                 *(it->begin() + 1) <= y + 50 && *(it->begin() + 1) >= y + 25) {
                 y = *(it->begin() + 1) - 45;
                 mary->is_jump_end = true;
-                mary->height = mary->distance = 20;
+                mary->height = mary->distance = 18;
                 return;
             }
         }

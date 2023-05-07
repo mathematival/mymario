@@ -11,7 +11,7 @@ void Mary::Mary_Init() {
     map_x = 0;
     life = 3;
     colour = 1;
-    height = 20;
+    height = 18;
     distance = 0;
     walk_state = 0;
     ground_state = 0;
@@ -45,19 +45,41 @@ void Mary::Move_state() {
 void Mary::Mary_Move(const QString &direction) {
 
     if (direction == "right" && x < 300 && can_move) {
-        x += 5;
-        map_x += 5;
+        if(colour==2){
+            x += 5;
+            map_x += 5;
+        }
+        else{
+            x += 3;
+            map_x += 3;
+        }
         walk_state += 57;
     } else if (direction == "left" && x <= 300 && x >= 0 && can_move) {
-        x -= 5;
-        map_x -= 5;
+        if(colour==2){
+            x -= 5;
+            map_x -= 5;
+        }
+        else{
+            x += 3;
+            map_x += 3;
+        }
         walk_state += 57;
     } else if (direction == "right" && x >= 300 && can_move) {
-        x += 5;
+        if(colour==2){
+            x += 5;
+        }
+        else{
+            x += 3;
+        }
         walk_state += 57;
         ground_state += 5;
     } else if (direction == "left" && x > 300 && can_move) {
-        x -= 5;
+        if(colour==2){
+            x -= 5;
+        }
+        else{
+            x -= 3;
+        }
         walk_state += 57;
         ground_state -= 5;
     } else if ((direction == "left" && x < 0) || (!can_move && direction != "null")) {

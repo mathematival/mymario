@@ -1,12 +1,11 @@
-#include "level2.h"
-#include"level3.h"
+#include "level3.h"
 #include<musicplayer.h>
 #include<QSoundEffect>
 #include <QDebug>
 #include <global.h>
 #include<QPixmap>
 
-level2::level2(QWidget *parent) : QWidget(parent) {
+level3::level3(QWidget *parent) : QWidget(parent) {
     setWindowTitle("马里奥");//设置标题
     setFixedSize(800, 545);//设置窗口大小
     Game_Init();
@@ -19,7 +18,7 @@ level2::level2(QWidget *parent) : QWidget(parent) {
     this->setFocusPolicy(Qt::StrongFocus);
 }
 
-void level2::Pause_Init() {
+void level3::Pause_Init() {
     Pause = new GamePause();//初始化暂停窗口
     MyPushButton *btn_continue = new MyPushButton(":/photo/continueGame.png");//添加继续游戏按钮
     btn_continue->setParent(Pause);
@@ -71,7 +70,7 @@ void level2::Pause_Init() {
     });
 }
 
-void level2::timerEvent(QTimerEvent *event) {
+void level3::timerEvent(QTimerEvent *event) {
     if (event->timerId() == timer1 && mary->is_die) {
         mary->Mary_die();
         Die_Init();
@@ -118,7 +117,7 @@ void level2::timerEvent(QTimerEvent *event) {
     }
 }
 
-void level2::keyPressEvent(QKeyEvent *event) {
+void level3::keyPressEvent(QKeyEvent *event) {
     if (!mary->is_die) {
         switch (event->key()) {
         case Qt::Key_Right:
@@ -162,7 +161,7 @@ void level2::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-void level2::keyReleaseEvent(QKeyEvent *event) {
+void level3::keyReleaseEvent(QKeyEvent *event) {
     if (!mary->is_die) {
         switch (event->key()) {
         case Qt::Key_Right:
@@ -188,10 +187,14 @@ void level2::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
-void level2::paintEvent(QPaintEvent *) {
+void level3::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     if((mary->life<=0)||(time<=0.0)){
         painter.drawPixmap(0, 0, 800, 545, QPixmap(":/photo/gameover.png"));
+        return;
+    }
+    if(is_win){
+        painter.drawPixmap(0, 0, 800, 545, QPixmap(":/photo/victory.png"));
         return;
     }
     if (!game_start) {
@@ -334,7 +337,7 @@ void level2::paintEvent(QPaintEvent *) {
         }
         else {
             painter.drawPixmap(mary->map_x, mary->y,
-                           QPixmap(":/photo/walk_" + mary->direction + QString::number(mary->colour) + ".png"),
+                               QPixmap(":/photo/walk_" + mary->direction + QString::number(mary->colour) + ".png"),
                                mary->walk_state, 0, 45, 45);
         }
     }
@@ -349,16 +352,16 @@ void level2::paintEvent(QPaintEvent *) {
     }
 }
 
-void level2::Game_Init() {
+void level3::Game_Init() {
     mary = new Mary;
-    brick = new Brick(2);
-    flower = new Flower(2);
-    rainbow = new Rainbow(2);
-    pipe = new class Pipe(2);
-    unknown = new Unknown(2);
-    mushroom = new MushRoom(2);
-    master = new Master(2);
-    bullet = new Bullet(2);
+    brick = new Brick(3);
+    flower = new Flower(3);
+    rainbow = new Rainbow(3);
+    pipe = new class Pipe(3);
+    unknown = new Unknown(3);
+    mushroom = new MushRoom(3);
+    master = new Master(3);
+    bullet = new Bullet(3);
     fire = new Fire;
     castle = new Castle;
     key = "nullptr";
@@ -374,7 +377,7 @@ void level2::Game_Init() {
     fire->Fire_Move(mary, pipe, brick, master);
 }
 
-void level2::Pause_Game_Init() {
+void level3::Pause_Game_Init() {
     key = "nullptr";
     score = 0;
     time = 100.0;
@@ -382,18 +385,18 @@ void level2::Pause_Game_Init() {
     is_kill_timer2 = true;
     game_start = false;
     mary->Mary_Init();
-    unknown->Unknown_Init2();
-    brick->BrickInit2();
-    flower->Flower_Init2();
-    rainbow->Rainbow_Init2();
-    mushroom->MushRoom_Init2();
-    master->Master_Init2();
+    unknown->Unknown_Init3();
+    brick->BrickInit3();
+    flower->Flower_Init3();
+    rainbow->Rainbow_Init3();
+    mushroom->MushRoom_Init3();
+    master->Master_Init3();
     master->Master_State(mary, pipe, brick);
-    bullet->Bullet_Init2();
+    bullet->Bullet_Init3();
     bullet->Bullet_State(mary, pipe, brick);
 }
 
-void level2::Jump_Collision() {
+void level3::Jump_Collision() {
     if (mary->height - mary->distance <= 0) {
         return;
     }
@@ -457,7 +460,7 @@ void level2::Jump_Collision() {
     }
 }
 
-void level2::Move_Collision() {
+void level3::Move_Collision() {
     for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
          it++)
     {
@@ -559,12 +562,13 @@ void level2::Move_Collision() {
         *(it->begin() + 1) < mary->y - 100 && *(it->begin() + 1) > mary->y - 200) {
 
         is_win = true;
-        is_win= level2_Win(is_win);
+        update();
+        Game_Win();
     }
     mary->can_move = true;
 }
 
-void level2::Fall_Down(int &y) {
+void level3::Fall_Down(int &y) {
     qDebug() << mary->distance;
     if (mary->height - mary->distance < 0) {
         if (y > 455) {
@@ -623,7 +627,7 @@ void level2::Fall_Down(int &y) {
     }
 }
 
-void level2::Die_Init() {
+void level3::Die_Init() {
     if (mary->is_die && key != "null") {
         mary->walk_state = 0;
         key = "null";
@@ -657,29 +661,18 @@ void level2::Die_Init() {
     }
 }
 
-bool level2::level2_Win(bool is_win) {
+void level3::Game_Win() {
     killTimer(timer1);
     killTimer(timer3);
     killTimer(timer2);
-    if(is_win){
-        QTimer::singleShot(1000, this, [=]() {
-            game_start = false;
-            time = 100.0;
-            update();
-        });
-        level3 *Level3 = new level3;
-        this->hide();
-        Level3->show();
-        connect(Level3,&level3::back,this,[=](){
-            this->close();
-            emit  this->back();
-        });
-        return false;
-    }
-    return false;
+    QTimer::singleShot(1000, this, [=]() {
+        game_start = false;
+        time = 100.0;
+        update();
+    });
 }
 
-void level2::Game_Over(){
+void level3::Game_Over(){
     killTimer(timer1);
     killTimer(timer3);
     killTimer(timer2);

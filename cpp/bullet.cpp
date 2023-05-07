@@ -14,20 +14,15 @@ Bullet::Bullet(int a) {
 }
 
 void Bullet::Bullet_Init2() {
+    m.clear();
     die_state = 0;
     direction = "left";
     QVector<int> v;
-    int arr[10][2] = {{2370, 460},
-                      {2670, 460},
-                      {3000, 460},
-                      {3200, 460},
-                      {3230, 460},
-                      {3600, 460},
-                      {4000, 460},
-                      {4500, 460},
-                      {5500, 460},
-                      {6200, 460}};
-    for (int i = 0; i < 10; i++) {
+    int arr[4][2] = {{2170, 460},
+                      {2470, 460},
+                      {2370, 460},
+                      {4500, 460}};
+    for (int i = 0; i < 4; i++) {
         v.push_back(arr[i][0]);
         v.push_back(arr[i][1]);
         v.push_back(1);
@@ -41,6 +36,7 @@ void Bullet::Bullet_Init2() {
 }
 
 void Bullet::Bullet_Init3() {
+    m.clear();
     die_state = 0;
     direction = "left";
     QVector<int> v;
@@ -93,8 +89,18 @@ void Bullet::Bullet_Move() {
                 *(itm->begin() + 2) = 0;
                 return;
             }
-            if (((*itm->begin() - mary->x >= 330 && *itm->begin() - mary->x <= 340) ||
-                 (*itm->begin() - mary->x >= 270 && *itm->begin() - mary->x <= 280)) && mary->y == 455) {
+            if (*itm->begin() - mary->x - 300 >= 35 && *itm->begin() - mary->x - 300 <= 40 &&
+                *(itm->begin() + 1) > mary->y - 35 && *(itm->begin() + 1) < mary->y + 35 && mary->direction == "right" &&
+                *(itm->begin() + 2) == 1) {
+                if (mary->colour == 1 && !mary->is_invincible) {
+                    mary->is_die = true;
+                } else if (mary->colour != 1 && !mary->is_invincible) {
+                    mary->colour = 1;
+                    mary->is_invincible = true;
+                }
+            } else if (*itm->begin() - mary->x - 300 >= -40 && *itm->begin() - mary->x - 300 <= -35 &&
+                       *(itm->begin() + 1) > mary->y - 35 && *(itm->begin() + 1) < mary->y + 35 &&
+                       mary->direction == "left" && *(itm->begin() + 2) == 1) {
                 if (mary->colour == 1 && !mary->is_invincible) {
                     mary->is_die = true;
                 } else if (mary->colour != 1 && !mary->is_invincible) {
