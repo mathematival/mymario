@@ -31,7 +31,7 @@ void level1::Pause_Init() {
         btn_continue->zoom2();
         QTimer::singleShot(500, this, [=]() {
             timer1 = startTimer(15);
-            timer3 = startTimer(40);
+            timer3 = startTimer(50);
             mary->walk_state = 0;//初始化mary的行走状态
             key = "nullptr";
             Pause->close();
@@ -105,6 +105,9 @@ void level1::timerEvent(QTimerEvent *event) {
             update();
             return;
         };
+        Jump_Collision();
+        Move_Collision();
+        master->Master_Move();
         unknown->Unknown_State();
         unknown->Crash_state();
     }
@@ -527,7 +530,7 @@ void level1::Die_Init() {
             mary->is_die = false;
             mary->is_invincible = true;
             timer1 = startTimer(15);//开启定时器
-            timer3 = startTimer(40);
+            timer3 = startTimer(50);
             game_start = true;
             mary->die_state = 0;
             mary->die_pix_state = -50;

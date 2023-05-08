@@ -1,7 +1,7 @@
 #include "unknown.h"
 #include<iostream>
 
-using namespace std;
+
 
 Unknown::Unknown(int a) {
     if(a==1)
@@ -195,7 +195,6 @@ void Unknown::Unknown_crash(QVector < QVector < int >> ::iterator it){
 void Unknown::Crash_state() {
 
     if (coin_state > 0 && coin_state < 240) {
-        cout << coin_y << endl;
         coin_state += 30;
         coin_y -= 20;
     } else if (coin_state == 240) {

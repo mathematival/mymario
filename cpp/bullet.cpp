@@ -19,7 +19,7 @@ void Bullet::Bullet_Init2() {
     direction = "left";
     QVector<int> v;
     int arr[4][2] = {{2170, 460},
-                      {2470, 460},
+                      {2470, 320},
                       {2370, 460},
                       {4500, 460}};
     for (int i = 0; i < 4; i++) {
@@ -80,8 +80,8 @@ void Bullet::Bullet_Move() {
             *(itm->begin() + 4) = 2;
         }
         if (*itm->begin() - mary->x > -40 && *(itm->begin()) - mary->x < 800 && *(itm->begin() + 2) == 1) {
-            if (*itm->begin() - mary->x <= 340 && (*itm->begin() - mary->x >= 270) && mary->y > 410 && mary->y < 455 &&
-                !mary->is_jump) {
+            if  (*itm->begin() - mary->x <= 340 && (*itm->begin() - mary->x >= 270)&&!(mary->is_big) &&
+                (*(itm->begin() + 1)-(mary->y+45)>=0 ) && (*(itm->begin() + 1)-(mary->y+45)<30 ) &&!mary->is_jump){
                 die_state = 1;
                 *(itm->begin() + 4) = 1;
                 mary->is_jump_end = false;//跳跃状态开始
@@ -89,18 +89,27 @@ void Bullet::Bullet_Move() {
                 *(itm->begin() + 2) = 0;
                 return;
             }
-            if (*itm->begin() - mary->x - 300 >= 35 && *itm->begin() - mary->x - 300 <= 40 &&
-                *(itm->begin() + 1) > mary->y - 35 && *(itm->begin() + 1) < mary->y + 35 && mary->direction == "right" &&
-                *(itm->begin() + 2) == 1) {
+            else if (*itm->begin() - (mary->x-10) <= 340 && (*itm->begin() - (mary->x-10) >= 270) &&(mary->is_big)&&
+                     (*(itm->begin() + 1)-(mary->y+45)>=0 ) && (*(itm->begin() + 1)-(mary->y+45)<30 )&&!mary->is_jump) {
+                die_state = 1;
+                *(itm->begin() + 4) = 1;
+                mary->is_jump_end = false;//跳跃状态开始
+                mary->distance = 1;
+                *(itm->begin() + 2) = 0;
+                return;
+            }
+            if (((*itm->begin() - mary->x >= 330 && *itm->begin() - mary->x <= 340) ||(*itm->begin() - mary->x >= 270 && *itm->begin() - mary->x <= 280))
+                &&!(mary->is_big)&& (*(itm->begin() + 1)-(mary->y+45)<-10 ) && (*(itm->begin() + 1)-mary->y >-30 )) {
                 if (mary->colour == 1 && !mary->is_invincible) {
                     mary->is_die = true;
                 } else if (mary->colour != 1 && !mary->is_invincible) {
                     mary->colour = 1;
                     mary->is_invincible = true;
                 }
-            } else if (*itm->begin() - mary->x - 300 >= -40 && *itm->begin() - mary->x - 300 <= -35 &&
-                       *(itm->begin() + 1) > mary->y - 35 && *(itm->begin() + 1) < mary->y + 35 &&
-                       mary->direction == "left" && *(itm->begin() + 2) == 1) {
+            }
+            else if (((*itm->begin() - (mary->x-10) >= 330 && *itm->begin() - (mary->x-10) <= 340) ||
+                      (*itm->begin() - (mary->x-10) >= 270 && *itm->begin() - (mary->x-10) <= 280))&&(mary->is_big)
+                     &&(*(itm->begin() + 1)-(mary->y+45)<-10 ) && (*(itm->begin() + 1)-(mary->y-20) >-30 )) {
                 if (mary->colour == 1 && !mary->is_invincible) {
                     mary->is_die = true;
                 } else if (mary->colour != 1 && !mary->is_invincible) {
@@ -109,9 +118,9 @@ void Bullet::Bullet_Move() {
                 }
             }
             if (*(itm->begin() + 3) == 1) {
-                *itm->begin() += 1;
+                *itm->begin() += 2;
             } else if (*(itm->begin() + 3) == 0) {
-                *(itm->begin()) -= 1;
+                *(itm->begin()) -= 2;
             }
             for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
                  it++)

@@ -113,6 +113,10 @@ void level2::timerEvent(QTimerEvent *event) {
             update();
             return;
         };
+        Jump_Collision();
+        Move_Collision();
+        master->Master_Move();
+        bullet->Bullet_Move();
         unknown->Unknown_State();
         unknown->Crash_state();
     }
