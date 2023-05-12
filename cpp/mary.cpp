@@ -1,4 +1,5 @@
 #include "mary.h"
+#include"global.h"
 #include<QDebug>
 
 Mary::Mary() {
@@ -102,6 +103,8 @@ void Mary::Jump_And_Down() {
 }
 
 void Mary::Mary_die() {
+    stopAllBackMusic();
+    musicPlayer->play(Death);
     if (is_die && die_state < 20) {
         y -= 5;
         die_state++;

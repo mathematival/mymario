@@ -36,6 +36,7 @@ SOURCES += \
     pipe.cpp \
     rainbow.cpp \
     shell.cpp \
+    spikeweed.cpp \
     unknown.cpp
 
 HEADERS += \
@@ -65,6 +66,7 @@ HEADERS += \
     pipe.h \
     rainbow.h \
     shell.h \
+    spikeweed.h \
     unknown.h
 
 FORMS += \

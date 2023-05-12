@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFixedSize(800,545);
     this->setWindowTitle("马里奥");
     QApplication::setWindowIcon(QIcon(":/photo/icon.png"));//设置图标
-    musicPlayer->backMusicPlay(course_clear);
+    musicPlayer->backMusicPlay(Start);
     MyPushButton *start_btn=new MyPushButton(":/photo/end.png");//设置开始按钮
     start_btn->setParent(this);
     start_btn->move(30,this->height()*0.25);
@@ -23,10 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
         start_btn->zoom2();       
         QTimer::singleShot(500,this,[=](){
             this->hide();
+            stopAllBackMusic();
             level1 *Level1=new level1;
             Level1->show();
             connect(Level1,&level1::back,this,[=](){
                 this->show();
+                musicPlayer->backMusicPlay(Start);
             });
         });
     });

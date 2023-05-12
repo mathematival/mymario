@@ -9,6 +9,7 @@
 level1::level1(QWidget *parent) : QWidget(parent) {
     setWindowTitle("马里奥");//设置标题
     setFixedSize(800, 545);//设置窗口大小
+    musicPlayer->backMusicPlay(MainTheme);
     Game_Init();
     Pause_Init();
     QTimer::singleShot(1000, this, [=]() {
@@ -101,6 +102,9 @@ void level1::timerEvent(QTimerEvent *event) {
     if (event->timerId() == timer3) {
         time -= 0.05;
         if(time<=0.0){
+            stopAllMusic();
+            stopAllBackMusic();
+            musicPlayer->play(OutOfTime);
             Game_Over();
             update();
             return;
@@ -343,6 +347,9 @@ void level1::Jump_Collision() {
     if (mary->height - mary->distance <= 0) {
         return;
     }
+    if(mary->is_jump_end){
+        return;
+    }
     for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
          it++)
     {
@@ -526,7 +533,7 @@ void level1::Die_Init() {
         killTimer(timer3);
         killTimer(timer1);
         game_start = false;
-        QTimer::singleShot(1500, this, [=]() {
+        QTimer::singleShot(2000, this, [=]() {
             mary->is_die = false;
             mary->is_invincible = true;
             timer1 = startTimer(15);//开启定时器
@@ -534,6 +541,7 @@ void level1::Die_Init() {
             game_start = true;
             mary->die_state = 0;
             mary->die_pix_state = -50;
+            musicPlayer->backMusicPlay(MainTheme);
         });
     }
 }
@@ -548,6 +556,8 @@ bool level1::level1_Win(bool is_win) {
         time = 100.0;
         update();
     });
+    stopAllBackMusic();
+    stopAllMusic();
     level2 *Level2 = new level2;
     this->hide();
     Level2->show();

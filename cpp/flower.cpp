@@ -27,7 +27,7 @@ void Flower::Flower_Init2() {
 
 void Flower::Flower_Init3() {
     m.clear();
-    int arr[1][2] = {{1000, 320}};
+    int arr[1][2] = {{2700, 320}};
     for (int i = 0; i < 1; i++) {
         v.push_back(arr[i][0]);
         v.push_back(arr[i][1]);

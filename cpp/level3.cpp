@@ -8,6 +8,7 @@
 level3::level3(QWidget *parent) : QWidget(parent) {
     setWindowTitle("马里奥");//设置标题
     setFixedSize(800, 545);//设置窗口大小
+    musicPlayer->backMusicPlay(MainTheme);
     Game_Init();
     Pause_Init();
     QTimer::singleShot(1000, this, [=]() {
@@ -89,6 +90,7 @@ void level3::timerEvent(QTimerEvent *event) {
         mary->Jump_And_Down();
         Jump_Collision();
         Move_Collision();
+        spikeweed->Spikeweed_collision();
         brick->ShatterState();
         mushroom->Move_state();
         master->Master_Move();
@@ -103,17 +105,22 @@ void level3::timerEvent(QTimerEvent *event) {
         mary->Mary_Move(key);
         Jump_Collision();
         Move_Collision();
+        spikeweed->Spikeweed_collision();
     }
 
     if (event->timerId() == timer3) {
         time -= 0.05;
         if(time<=0.0){
+            stopAllMusic();
+            stopAllBackMusic();
+            musicPlayer->play(OutOfTime);
             Game_Over();
             update();
             return;
         };
         Jump_Collision();
         Move_Collision();
+        spikeweed->Spikeweed_collision();
         master->Master_Move();
         bullet->Bullet_Move();
         unknown->Unknown_State();
@@ -246,6 +253,13 @@ void level3::paintEvent(QPaintEvent *) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 50, 40, QPixmap(":/photo/brick1.png"));
         }
     }
+    for (QVector < QVector < int >> ::iterator it = spikeweed->m.begin()->begin(); it != spikeweed->m.begin()->end();
+         it++)//画地刺
+    {
+        if (*(it->begin()) - mary->x > -50 && *(it->begin()) - mary->x < 800) {
+            painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1)+20, 50, 40, QPixmap(":/photo/spikeweed.png"));
+        }
+    }
     for (QVector < QVector < int >> ::iterator it = flower->m.begin()->begin(); it != flower->m.begin()->end();
          it++)
     {
@@ -270,13 +284,13 @@ void level3::paintEvent(QPaintEvent *) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 50, 40,
                                QPixmap(":/photo/unknown_after.png"));
         }
-    }
+    }//画金币
     if (unknown->coin_state > 0) {
         painter.drawPixmap(unknown->coin_x - mary->x, unknown->coin_y, QPixmap(":/photo/coin.png"), unknown->coin_state,
                            0, 30, 33);
     }
     for (QVector < QVector < int >> ::iterator it = pipe->long_m.begin()->begin(); it != pipe->long_m.begin()->end();
-         it++)
+         it++)//画导管
     {
         if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 80, 100, QPixmap(":/photo/pipe_long.png"));
@@ -288,7 +302,7 @@ void level3::paintEvent(QPaintEvent *) {
         if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 80, 50, QPixmap(":/photo/pipe_short.png"));
         }
-    }
+    }//画方块破碎动画
     if (brick->shatter_state > 0) {
         painter.drawPixmap(brick->left_shatter_x - mary->x, brick->left_shatter_y - 20, 30, 30,
                            QPixmap(":/photo/brick2.png"));
@@ -300,7 +314,7 @@ void level3::paintEvent(QPaintEvent *) {
                            QPixmap(":/photo/brick3.png"));
     }
     for (QVector < QVector < int >> ::iterator it = master->m.begin()->begin(); it != master->m.begin()->end();
-         it++)
+         it++)//画怪物
     {
         if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) != 0) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 40, 40,
@@ -312,7 +326,7 @@ void level3::paintEvent(QPaintEvent *) {
         }
     }
     for (QVector < QVector < int >> ::iterator it = bullet->m.begin()->begin(); it != bullet->m.begin()->end();
-         it++)
+         it++)//画子弹
     {
         if (*(it->begin()) - mary->x > -80 && *(it->begin()) - mary->x < 800 && *(it->begin() + 2) != 0) {
             painter.drawPixmap(*(it->begin()) - mary->x, *(it->begin() + 1), 40, 40,
@@ -323,7 +337,7 @@ void level3::paintEvent(QPaintEvent *) {
                                QPixmap(":/photo/bullet" + QString::number(*(it->begin() + 3)) + ".png"));
         }
     }
-    if (mary->is_die)//画角色
+    if (mary->is_die)//画角色死亡动画
     {
         if(mary->is_big){
             painter.drawPixmap(mary->map_x-10, mary->y-20,65,65, QPixmap(":/photo/mary_die.png"), mary->die_pix_state, 0, 50, 50);
@@ -359,6 +373,7 @@ void level3::paintEvent(QPaintEvent *) {
 void level3::Game_Init() {
     mary = new Mary;
     brick = new Brick(3);
+    spikeweed = new Spikeweed(3);
     flower = new Flower(3);
     rainbow = new Rainbow(3);
     pipe = new class Pipe(3);
@@ -376,6 +391,7 @@ void level3::Game_Init() {
     mary->life =this->mary->life;
     is_kill_timer2 = true;
     game_start = false;
+    spikeweed->Spikeweed_State(mary);
     master->Master_State(mary, pipe, brick);
     bullet->Bullet_State(mary, pipe, brick);
     fire->Fire_Move(mary, pipe, brick, master);
@@ -391,6 +407,8 @@ void level3::Pause_Game_Init() {
     mary->Mary_Init();
     unknown->Unknown_Init3();
     brick->BrickInit3();
+    spikeweed->Spikeweed_Init3();
+    spikeweed->Spikeweed_State(mary);
     flower->Flower_Init3();
     rainbow->Rainbow_Init3();
     mushroom->MushRoom_Init3();
@@ -402,6 +420,9 @@ void level3::Pause_Game_Init() {
 
 void level3::Jump_Collision() {
     if (mary->height - mary->distance <= 0) {
+        return;
+    }
+    if(mary->is_jump_end){
         return;
     }
     for (QVector < QVector < int >> ::iterator it = brick->m.begin()->begin(); it != brick->m.begin()->end();
@@ -653,7 +674,7 @@ void level3::Die_Init() {
         killTimer(timer3);
         killTimer(timer1);
         game_start = false;
-        QTimer::singleShot(1500, this, [=]() {
+        QTimer::singleShot(2000, this, [=]() {
             mary->is_die = false;
             mary->is_invincible = true;
             timer1 = startTimer(15);//开启定时器
@@ -661,6 +682,7 @@ void level3::Die_Init() {
             game_start = true;
             mary->die_state = 0;
             mary->die_pix_state = -50;
+            musicPlayer->backMusicPlay(MainTheme);
         });
     }
 }
@@ -669,10 +691,12 @@ void level3::Game_Win() {
     killTimer(timer1);
     killTimer(timer3);
     killTimer(timer2);
-    QTimer::singleShot(1000, this, [=]() {
-        game_start = false;
-        time = 100.0;
-        update();
+    stopAllBackMusic();
+    stopAllMusic();
+    musicPlayer->play(World_clear);
+    QTimer::singleShot(6500, this, [=]() {
+        this->close();
+        emit  this->back();
     });
 }
 

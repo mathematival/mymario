@@ -1,5 +1,6 @@
 #include <mushroom.h>
 #include<QDebug>
+
 MushRoom::MushRoom(int a)
 {
     if(a==1)

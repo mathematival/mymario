@@ -21,6 +21,7 @@
 #include"bullet.h"
 #include"flower.h"
 #include"rainbow.h"
+#include"spikeweed.h"
 
 class level3 : public QWidget {
     Q_OBJECT
@@ -40,6 +41,7 @@ public:
     QString key;
     Mary *mary;
     Brick *brick;
+    Spikeweed *spikeweed;
     Flower *flower;
     Rainbow *rainbow;
     Pipe *pipe;

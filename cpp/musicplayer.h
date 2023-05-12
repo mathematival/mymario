@@ -3,6 +3,7 @@
 #define MUSICPLAYER_H
 #include <QObject>
 #include<QSoundEffect>
+
 class MusicPlayer : public QObject
 {
     Q_OBJECT

@@ -1,4 +1,5 @@
 #include <gameset.h>
+#include"global.h"
 #include"mypushbutton.h"
 #include<QTimer>
 
@@ -13,6 +14,8 @@ Gameset::Gameset(QWidget *parent) : QWidget(parent) {
     connect(openVoice_btn, &QPushButton::clicked, [=]() {
         openVoice_btn->zoom1();
         openVoice_btn->zoom2();
+        musicPlayer = new MusicPlayer;
+        musicPlayer->backMusicPlay(Start);
         QTimer::singleShot(500, this, [=]() {
             this->close();
             emit this->back();
@@ -26,6 +29,8 @@ Gameset::Gameset(QWidget *parent) : QWidget(parent) {
     connect(closeVoice_btn, &QPushButton::clicked, [=]() {
         closeVoice_btn->zoom1();
         closeVoice_btn->zoom2();
+        stopAllBackMusic();
+        delete musicPlayer;
         QTimer::singleShot(500, this, [=]() {
             this->close();
             emit this->back();
