@@ -8,7 +8,6 @@
 level3::level3(QWidget *parent) : QWidget(parent) {
     setWindowTitle("马里奥");//设置标题
     setFixedSize(800, 545);//设置窗口大小
-    musicPlayer->backMusicPlay(MainTheme);
     Game_Init();
     Pause_Init();
     QTimer::singleShot(1000, this, [=]() {
@@ -74,6 +73,14 @@ void level3::Pause_Init() {
 void level3::timerEvent(QTimerEvent *event) {
     if (event->timerId() == timer1 && mary->is_die) {
         mary->Mary_die();
+        if(open==false){
+            stopAllBackMusic();
+            musicPlayer->play(Death);
+            open =true;
+            QTimer::singleShot(2000, this, [=](){
+                open =false;
+            });
+        }
         Die_Init();
         update();
         return;
@@ -391,6 +398,7 @@ void level3::Game_Init() {
     mary->life =this->mary->life;
     is_kill_timer2 = true;
     game_start = false;
+    open =false;
     spikeweed->Spikeweed_State(mary);
     master->Master_State(mary, pipe, brick);
     bullet->Bullet_State(mary, pipe, brick);
@@ -404,6 +412,7 @@ void level3::Pause_Game_Init() {
     is_press_x = false;
     is_kill_timer2 = true;
     game_start = false;
+    open =false;
     mary->Mary_Init();
     unknown->Unknown_Init3();
     brick->BrickInit3();
@@ -465,6 +474,7 @@ void level3::Jump_Collision() {
             *(it->begin() + 2) == 1) {
             score += 10;
             mary->colour = 3;
+            musicPlayer->play(PowerUp);
             *(it->begin() + 2) = 0;
             return;
         }
@@ -478,6 +488,7 @@ void level3::Jump_Collision() {
             score += 10;
             mary->is_big = true;
             mary->is_invincible = true;
+            musicPlayer->play(PowerUp);
             invincible_time = 15.0;
             *(it->begin() + 2) = 0;
             return;
@@ -519,16 +530,18 @@ void level3::Move_Collision() {
          it++)
     {
         if (*it->begin() - mary->x - 300 >= 30&& *it->begin() - mary->x - 300 <= 35 &&
-            *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && mary->direction == "right") {
+            *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && *(it->begin() + 2) == 1&& mary->direction == "right") {
             score += 10;
             mary->colour = 3;
+            musicPlayer->play(PowerUp);
             *(it->begin() + 2) = 0;
             return;
         } else if (*it->begin() - mary->x - 300 >= -35 && *it->begin() - mary->x - 300 <= -30 &&
-                   *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 &&
-                   mary->direction == "left") {
+                   *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && *(it->begin() + 2) == 1
+                   &&mary->direction == "left") {
             score += 10;
             mary->colour = 3;
+            musicPlayer->play(PowerUp);
             *(it->begin() + 2) = 0;
             return;
         }
@@ -537,19 +550,21 @@ void level3::Move_Collision() {
          it++)
     {
         if (*it->begin() - mary->x - 300 >= 30&& *it->begin() - mary->x - 300 <= 35 &&
-            *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && mary->direction == "right") {
+            *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && *(it->begin() + 2) == 1&& mary->direction == "right") {
             score += 10;
             mary->is_big = true;
             mary->is_invincible = true;
+            musicPlayer->play(PowerUp);
             invincible_time = 15.0;
             *(it->begin() + 2) = 0;
             return;
         } else if (*it->begin() - mary->x - 300 >= -35 && *it->begin() - mary->x - 300 <= -30 &&
-                   *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 &&
-                   mary->direction == "left") {
+                   *(it->begin() + 1) > mary->y - 35 && *(it->begin() + 1) < mary->y + 35 && *(it->begin() + 2) == 1
+                   &&mary->direction == "left") {
             score += 10;
             mary->is_big = true;
             mary->is_invincible = true;
+            musicPlayer->play(PowerUp);
             invincible_time =15.0;
             *(it->begin() + 2) = 0;
             return;

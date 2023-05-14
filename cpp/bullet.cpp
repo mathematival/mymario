@@ -1,5 +1,6 @@
 #include"bullet.h"
 #include"mary.h"
+#include"global.h"
 #include"QDebug"
 
 Bullet::Bullet(int a) {
@@ -63,7 +64,7 @@ void Bullet::Bullet_Init3() {
     v1.clear();
 }
 
-void Bullet::Bullet_State(Mary *m, Pipe *p, Brick *r) {
+void Bullet::Bullet_State(Mary *m, class Pipe *p, Brick *r) {
     mary = m;
     pipe = p;
     brick = r;
@@ -82,6 +83,7 @@ void Bullet::Bullet_Move() {
         if (*itm->begin() - mary->x > -40 && *(itm->begin()) - mary->x < 800 && *(itm->begin() + 2) == 1) {
             if  (*itm->begin() - mary->x <= 340 && (*itm->begin() - mary->x >= 270)&&!(mary->is_big) &&
                 (*(itm->begin() + 1)-(mary->y+45)>=0 ) && (*(itm->begin() + 1)-(mary->y+45)<30 ) &&!mary->is_jump){
+                musicPlayer->play(Stomp);
                 die_state = 1;
                 *(itm->begin() + 4) = 1;
                 mary->is_jump_end = false;//跳跃状态开始
@@ -91,6 +93,7 @@ void Bullet::Bullet_Move() {
             }
             else if (*itm->begin() - (mary->x-10) <= 340 && (*itm->begin() - (mary->x-10) >= 270) &&(mary->is_big)&&
                      (*(itm->begin() + 1)-(mary->y+45)>=0 ) && (*(itm->begin() + 1)-(mary->y+45)<30 )&&!mary->is_jump) {
+                musicPlayer->play(Stomp);
                 die_state = 1;
                 *(itm->begin() + 4) = 1;
                 mary->is_jump_end = false;//跳跃状态开始

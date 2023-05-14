@@ -1,6 +1,8 @@
 #include "fire.h"
+#include"musicplayer.h"
 #include<QDebug>
-
+extern MusicPlayer *musicPlayer;
+extern QString FireBall ;
 Fire::Fire() {
     Fire_Init();
 }
@@ -19,6 +21,7 @@ void Fire::Fire_Move(Mary *m, Pipe *p, Brick *r, Master *ms) {
 }
 
 void Fire::Fire_xy() {
+    musicPlayer->play(FireBall);
     if (!is_have) {
         if (mary->direction == "right") {
             x = mary->x + 350;

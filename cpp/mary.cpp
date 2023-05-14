@@ -94,6 +94,12 @@ void Mary::Jump_And_Down() {
     if (is_jump && is_jump_end && is_space_release) {
         is_space_release = false;//每按一次空格键只能触发一次跳跃
         is_jump_end = false;//跳跃状态开始
+        if(is_big){
+            musicPlayer->play(BigJump);
+        }
+        else{
+            musicPlayer->play(SmallJump);
+        }
         distance = 1;
     }
     if (distance > 0) {
@@ -103,8 +109,6 @@ void Mary::Jump_And_Down() {
 }
 
 void Mary::Mary_die() {
-    stopAllBackMusic();
-    musicPlayer->play(Death);
     if (is_die && die_state < 20) {
         y -= 5;
         die_state++;

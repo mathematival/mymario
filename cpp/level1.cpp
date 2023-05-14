@@ -75,6 +75,14 @@ void level1::Pause_Init() {
 void level1::timerEvent(QTimerEvent *event) {
     if (event->timerId() == timer1 && mary->is_die) {
         mary->Mary_die();
+        if(open==false){
+            stopAllBackMusic();
+            musicPlayer->play(Death);
+            open =true;
+            QTimer::singleShot(2000, this, [=](){
+                open =false;
+            });
+        }
         Die_Init();
         update();
         return;
@@ -324,6 +332,7 @@ void level1::Game_Init() {
     time = 100.0;
     is_kill_timer2 = true;
     game_start = false;
+    open =false;
     master->Master_State(mary, pipe, brick);
     fire->Fire_Move(mary, pipe, brick, master);
 }
@@ -335,6 +344,7 @@ void level1::Pause_Game_Init() {
     is_press_x = false;
     is_kill_timer2 = true;
     game_start = false;
+    open =false;
     mary->Mary_Init();
     unknown->Unknown_Init1();
     brick->BrickInit1();
@@ -556,8 +566,6 @@ bool level1::level1_Win(bool is_win) {
         time = 100.0;
         update();
     });
-    stopAllBackMusic();
-    stopAllMusic();
     level2 *Level2 = new level2;
     this->hide();
     Level2->show();

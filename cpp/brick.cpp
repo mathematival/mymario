@@ -1,5 +1,6 @@
 #include "brick.h"
 #include<iostream>
+#include"global.h"
 
 Brick::Brick(int a) {
     if(a==1)
@@ -260,11 +261,11 @@ void Brick::BrickInit3() {
 
 void Brick::BrickShatter(QVector < QVector < int >> ::iterator it)
 {
+    musicPlayer->play(BrickSmash);
     left_shatter_x = *it->begin();
     right_shatter_x = *it->begin() + 20;
     left_shatter_y = right_shatter_y = *(it->begin() + 1);
     shatter_state = 1;
-
 }
 
 

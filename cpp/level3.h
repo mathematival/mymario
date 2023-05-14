@@ -33,6 +33,7 @@ public:
     int timer3;
     bool is_kill_timer2;
     bool game_start;
+    bool open;
     double time;
     double invincible_time = 0.0;
     int score;

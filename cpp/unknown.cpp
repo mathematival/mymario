@@ -1,4 +1,5 @@
 #include "unknown.h"
+#include"global.h"
 #include<iostream>
 
 Unknown::Unknown(int a) {
@@ -200,6 +201,7 @@ void Unknown::Unknown_State() {
 
 
 void Unknown::Unknown_crash(QVector < QVector < int >> ::iterator it){
+    musicPlayer->play(CoinMusic);
     coin_state = 30;
     coin_x = *it->begin() + 10;
     coin_y = *(it->begin() + 1);

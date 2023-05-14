@@ -30,6 +30,7 @@ public:
     int timer3;
     bool is_kill_timer2;
     bool game_start;
+    bool open;
     double time;
     int score;
     bool is_press_x;

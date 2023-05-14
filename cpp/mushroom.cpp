@@ -1,4 +1,5 @@
 #include <mushroom.h>
+#include"global.h"
 #include<QDebug>
 
 MushRoom::MushRoom(int a)
@@ -87,6 +88,7 @@ void MushRoom::Move_state(){
         if (mushroom_x - 330 <= mary->x && mushroom_x - 270 >= mary->x && mushroom_y - mary->y == 5) {
             mushroom_state = 0;
             mary->colour = mushroom_kind + 1;
+            musicPlayer->play(PowerUp);
             mushroom_fall_down_distance = 19;
             return;
         }
